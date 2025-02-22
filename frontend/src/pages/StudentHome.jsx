@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import RecentActivity from './../components/RecentActivity';
 import "./../stylesheet/StudentHome.css";
 
 const StudentHome = () => {
@@ -28,12 +29,8 @@ const StudentHome = () => {
           <button className="apply-leave">Apply Leave</button>
         </div>
       </div>
-      <div className="recent-activity-box">
-        <div className="recent-activity">
-          <div className="activity-header">
-            hai
-          </div>
-        </div>
+      <div className="recent-activity">
+          <RecentActivity/>
       </div>
     </div>
   );
