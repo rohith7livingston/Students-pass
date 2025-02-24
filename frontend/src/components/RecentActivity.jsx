@@ -2,20 +2,18 @@ import React from "react";
 import "./../stylesheet/RecentActivity.css";
 
 const RecentActivity = () => {
-  const activities = [
-    { title: "Title of the letter", status: "Approved", className: "approved" },
+   const activities = [
+    { title: " Requesting permission for Sick Leave", status: "Rejected", className: "rejected" },
     {
-      title: "Title of tjhjjnjhe letter",
-      status: "Rejected",
-      className: "rejected",
+      title: "Requesting permission for Christmas",
+      status: "Approved",
+      className: "approved",
     },
     {
-      title: "Title of tjnnkjnjhe letter",
+      title: "Requesting permission for home sick",
       status: "Pending",
       className: "pending",
     },
-
-    { title: "Title of the letter", status: "Approved", className: "approved" },
   ];
 
   return (

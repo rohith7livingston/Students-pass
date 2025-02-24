@@ -1,22 +1,10 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import RecentActivity from './../components/RecentActivity';
+import RecentActivity from "./../components/RecentActivity";
 import "./../stylesheet/StudentHome.css";
 
 const StudentHome = () => {
-  const activities = [
-    { title: "Title of the letter", status: "Approved", className: "approved" },
-    {
-      title: "Title of tjhjjnjhe letter",
-      status: "Rejected",
-      className: "rejected",
-    },
-    {
-      title: "Title of tjnnkjnjhe letter",
-      status: "Pending",
-      className: "pending",
-    },
-  ];
+ 
   return (
     <div>
       <Navbar />
@@ -30,7 +18,7 @@ const StudentHome = () => {
         </div>
       </div>
       <div className="recent-activity">
-          <RecentActivity/>
+        <RecentActivity />
       </div>
     </div>
   );
