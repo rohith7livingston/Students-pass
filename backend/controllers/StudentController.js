@@ -69,5 +69,24 @@ const applyLeave = async (req, res) => {
     }
 };
 
+
+//getting leaves
+const getStudentLeaves = async (req, res) => {
+    try {
+        const { regno } = req.params;
+        const leaveLetters = await LetterModel.find({ studentId: regno });
+
+        if (leaveLetters.length === 0) {
+            return res.status(404).json({ message: "No leave records found" });
+        }
+
+        res.status(200).json(leaveLetters);
+    } catch (error) {
+        console.error("Error fetching leave records:", error);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
+
+
 // Export all functions properly
-module.exports = { registerStudent, applyLeave };
+module.exports = { registerStudent, applyLeave ,getStudentLeaves};

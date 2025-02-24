@@ -1,10 +1,14 @@
-let express = require("express")
-let {registerStudent} = require("./controllers/StudentController")
-let {applyLeave} = require("./controllers/StudentController")
-let app = express();
+const express = require("express");
+const cors = require("cors"); // Import CORS
+const { registerStudent, applyLeave, getStudentLeaves } = require("./controllers/StudentController");
 
-app.use(express.json())
+const app = express();
 
-app.post("/register",registerStudent)
-app.post("/applyLeave",applyLeave)
-module.exports = {app}
+app.use(cors()); // 
+app.use(express.json());
+
+app.post("/register", registerStudent);
+app.post("/applyLeave", applyLeave);
+app.get("/getLeave/:regno", getStudentLeaves); // Corrected
+
+module.exports = { app };
