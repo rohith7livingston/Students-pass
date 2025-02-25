@@ -1,36 +1,24 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import RecentActivity from './../components/RecentActivity';
-import "./../stylesheet/StudentHome.css";
+import RecentActivity from "../components/RecentActivity";
 
 const StudentHome = () => {
-  const activities = [
-    { title: "Title of the letter", status: "Approved", className: "approved" },
-    {
-      title: "Title of tjhjjnjhe letter",
-      status: "Rejected",
-      className: "rejected",
-    },
-    {
-      title: "Title of tjnnkjnjhe letter",
-      status: "Pending",
-      className: "pending",
-    },
-  ];
+  
+
   return (
-    <div>
+    <div className="min-h-screen bg-gray-100">
       <Navbar />
-      <div className="description-student">
-        <div className="description">
-          <h1 style={{ fontWeight: 350 }}>Apply Leave</h1>
-          <h1>
-            <b>Consider it Done</b>
-          </h1>
-          <button className="apply-leave">Apply Leave</button>
+      <div className="mt-24 flex justify-center">
+        <div className="text-center">
+          <h1 className="text-3xl font-light">Apply Leave</h1>
+          <h1 className="text-3xl font-bold">Consider it Done</h1>
+          <button className="w-32 h-9 mt-5 px-4 py-1 rounded-full bg-red-600 text-white hover:bg-red-400 transition duration-1000">
+            Apply Leave
+          </button>
         </div>
       </div>
-      <div className="recent-activity">
-          <RecentActivity/>
+      <div className="mt-12 flex justify-center">
+        <RecentActivity />
       </div>
     </div>
   );
