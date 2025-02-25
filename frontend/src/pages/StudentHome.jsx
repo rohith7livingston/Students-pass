@@ -1,10 +1,18 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+<<<<<<< HEAD
 import RecentActivity from "../components/RecentActivity";
 
 const StudentHome = () => {
   
 
+=======
+import RecentActivity from "./../components/RecentActivity";
+import "./../stylesheet/StudentHome.css";
+
+const StudentHome = () => {
+ 
+>>>>>>> 681ebe022d83b6eaaa5e73661a60bcc928628a78
   return (
     <div className="min-h-screen bg-gray-100">
       <Navbar />
@@ -17,7 +25,11 @@ const StudentHome = () => {
           </button>
         </div>
       </div>
+<<<<<<< HEAD
       <div className="mt-12 flex justify-center">
+=======
+      <div className="recent-activity">
+>>>>>>> 681ebe022d83b6eaaa5e73661a60bcc928628a78
         <RecentActivity />
       </div>
     </div>
