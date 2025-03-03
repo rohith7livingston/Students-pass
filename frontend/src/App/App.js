@@ -7,6 +7,8 @@ import Login from '../pages/Login';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
        
+import ApplyLeave from '../pages/ApplyLeave';
+
 function App() {
   return (
     <main id="app">
@@ -16,7 +18,7 @@ function App() {
           <Route path="/Student" element={<StudentHome />} />
           <Route path="/Register" element={<Register/>}/>
           <Route path="/login" element={<Login/>} />
-
+          <Route path='/apply' element ={<ApplyLeave/>}/>
           </Routes>
       </BrowserRouter>
     </main>
