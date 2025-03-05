@@ -1,5 +1,5 @@
-let {app} = require("./app")
-let mongoose = require("mongoose")
+const {app} =require("./app.js");
+const mongoose = require("mongoose")
 
 mongoose.connect("mongodb://localhost:27017/Testing")
         .then((req,res)=>

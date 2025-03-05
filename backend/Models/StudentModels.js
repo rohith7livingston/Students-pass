@@ -9,5 +9,8 @@ const studentSchema = new mongoose.Schema({
     Hostler: { type: Boolean }
 }, { _id: false }); // Disable default ObjectId generation
 
+
+
 const studentModel = mongoose.model("Student", studentSchema);
-module.exports = studentModel;
+
+module.exports = {studentModel};
