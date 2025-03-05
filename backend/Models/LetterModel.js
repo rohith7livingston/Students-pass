@@ -26,8 +26,9 @@ const LetterSchema = new mongoose.Schema({
     },
     approvedBy: { 
         type: String, 
-        default: "Pending" 
-    },
+        enum: ["CSE HOD", "Warden", "Principal"], 
+        required: true 
+    },      
     subject: { 
         type: String, 
         required: true 

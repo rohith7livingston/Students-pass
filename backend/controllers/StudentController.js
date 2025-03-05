@@ -35,7 +35,7 @@ const registerStudent = async (req, res) => {
 // Apply for Leave
 const applyLeave = async (req, res) => {
     try {
-        const { studentId, leaveType, dayType, startDate, endDate, subject, reason } = req.body;
+        const { studentId, leaveType, dayType, startDate, endDate, subject, reason, approvedBy } = req.body;
 
         // Check if student exists
         const student = await studentModel.findById(studentId);
@@ -43,9 +43,21 @@ const applyLeave = async (req, res) => {
             return res.status(404).json({ message: "Student not found" });
         }
 
+        // Check if the student already has a pending leave request
+        const existingLeave = await LetterModel.findOne({ studentId, status: "Pending" });
+        if (existingLeave) {
+            return res.status(400).json({ message: "You already have a pending leave request." });
+        }
+
         // Validate date range
         if (new Date(startDate) > new Date(endDate)) {
-            return res.status(400).json({ message: "End date must be after start date" });
+            return res.status(400).json({ message: "End date must be after start date." });
+        }
+
+        // Validate approvedBy value
+        const validApprovers = ["CSE HOD", "Warden", "Principal"];
+        if (!validApprovers.includes(approvedBy)) {
+            return res.status(400).json({ message: "Invalid approver selected." });
         }
 
         // Create a new leave request
@@ -56,7 +68,8 @@ const applyLeave = async (req, res) => {
             startDate,
             endDate,
             subject,
-            reason
+            reason,
+            approvedBy
         });
 
         // Save to database
@@ -68,6 +81,8 @@ const applyLeave = async (req, res) => {
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
+
+module.exports = { applyLeave };
 
 
 //getting leaves

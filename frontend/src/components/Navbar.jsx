@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-
+import Sasi_Img from './../Assets/sasilogo.png'
 function Navbar() {
   const navRef = useRef();
 
@@ -10,7 +10,7 @@ function Navbar() {
 
   return (
     <header className="flex justify-between items-center h-20 px-8 bg-red-700 text-white">
-      <h3 className="text-xl font-bold">LOGO</h3>
+      <h3 className="text-xl font-bold"><img/></h3>
       {/* Desktop Navigation */}
       <nav className="hidden md:flex gap-6">
         <a href="/#" className="relative after:block after:h-0.5 after:w-full after:bg-white after:scale-0 hover:after:scale-100 after:transition-transform after:duration-700">

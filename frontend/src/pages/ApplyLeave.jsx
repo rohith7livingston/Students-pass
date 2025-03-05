@@ -1,95 +1,123 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import axios from "axios"; // Import axios
 import "./../stylesheet/ApplyLeave.css";
 
 const ApplyLeave = () => {
-  const [leaveType, setLeaveType] = useState("Sick"); // Store selected leave type
-  const [dayType, setDayType] = useState("Full");
+  const [leaveType, setLeaveType] = useState("Sick Leave");
+  const [dayType, setDayType] = useState("Full Day");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [subject, setSubject] = useState("");
   const [reason, setReason] = useState("");
+  const [approvedBy, setApprovedBy] = useState("CSE HOD"); // Default Approver
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!startDate || !endDate || !subject || !reason) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    setLoading(true);
+
+    const requestData = {
+      studentId: "22K61A0529", // Replace with actual logged-in student ID
+      leaveType,
+      dayType,
+      startDate,
+      endDate,
+      subject,
+      reason,
+      approvedBy
+    };
+
+    try {
+      const response = await axios.post("http://localhost:5000/applyLeave", requestData);
+      alert("Leave request submitted successfully!");
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error submitting leave request:", error);
+      alert(error.response?.data?.message || "Server error");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="apply-leave-container">
-      <div className="letter-opener">
+    <div className="flex justify-center items-center min-h-screen bg-pink-100">
+      <div className="w-full max-w-2xl p-6 bg-white rounded-xl shadow-md border border-dashed border-gray-500">
+        
         {/* Title */}
-        <motion.h1
-          className="text-3xl font-bold"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: -5 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          Apply for Leave
-        </motion.h1>
-
-        {/* Animated Buttons */}
-        <div className="button-animation">
-          {["red-500", "yellow-500", "green-500"].map((color, index) => (
-            <motion.button
-              key={color}
-              className={`circle-button bg-${color}`}
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{
-                duration: 1.2,
-                delay: index * 0.2,
-                repeat: Infinity,
-                repeatType: "mirror",
-                ease: "easeInOut",
-              }}
-            />
-          ))}
+        <div className="flex items-center gap-3 mb-4">
+          <h1 className="text-2xl font-bold text-gray-800">Apply for leave</h1>
+          <div className="flex space-x-1 dot-animation">
+            <motion.div className="w-2.5 h-2.5 bg-red-500 rounded-full" animate={{ scale: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 1, ease: "easeInOut" }} />
+            <motion.div className="w-2.5 h-2.5 bg-yellow-500 rounded-full" animate={{ scale: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 1, ease: "easeInOut", delay: 0.2 }} />
+            <motion.div className="w-2.5 h-2.5 bg-green-500 rounded-full" animate={{ scale: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 1, ease: "easeInOut", delay: 0.4 }} />
+          </div>
         </div>
-      </div>
 
-      {/* Form Section */}
-      <div className="apply-form">
-        <div className="form-1">
-          {/* Leave Type Selection */}
-          <div className="leavetype">
-            <h2>Leave Type:</h2>
-            <select
-              className="leave-dropdown"
-              value={leaveType}
-              onChange={(e) => setLeaveType(e.target.value)}
-            >
-              <option value="Sick">Sick</option>
-              <option value="Holiday">Holiday</option>
+        {/* Form */}
+        <div className="space-y-4">
+          {/* Leave Type */}
+          <div className="flex items-center gap-4">
+            <label className="text-gray-700 font-semibold">Leave type</label>
+            <select className="p-2 border border-gray-300 rounded-lg focus:ring focus:ring-red-300" value={leaveType} onChange={(e) => setLeaveType(e.target.value)}>
+              <option value="Sick Leave">Sick Leave</option>
+              <option value="Leave">Leave</option>
               <option value="Permission">Permission</option>
             </select>
           </div>
 
-          <div className="flex flex-col gap-2">
-            <label className="font-semibold text-gray-700">Day Type</label>
-            <div className="flex items-center gap-4">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  checked={dayType === "Full"}
-                  onChange={() => setDayType("Full")}
-                  className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="text-gray-700">Full</span>
-              </label>
+          {/* Day Type */}
+          <div className="flex items-center gap-4">
+            <label className="text-gray-700 font-semibold">Day type</label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input type="radio" checked={dayType === "Full Day"} onChange={() => setDayType("Full Day")} className="w-4 h-4 text-red-600 focus:ring-red-500" />
+              <span className="text-gray-700">Full Day</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input type="radio" checked={dayType === "Half Day"} onChange={() => setDayType("Half Day")} className="w-4 h-4 text-red-600 focus:ring-red-500" />
+              <span className="text-gray-700">Half Day</span>
+            </label>
+          </div>
 
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="radio"
-                  checked={dayType === "Half"}
-                  onChange={() => setDayType("Half")}
-                  className="w-4 h-4 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="text-gray-700">Half Day</span>
-              </label>
+          {/* Date Selection */}
+          <div className="flex justify-between">
+            <div className="flex flex-col">
+              <label className="text-gray-700 font-semibold">From:</label>
+              <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="p-2 border border-gray-300 rounded-lg focus:ring focus:ring-red-300" />
+            </div>
+            <div className="flex flex-col">
+              <label className="text-gray-700 font-semibold">To:</label>
+              <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="p-2 border border-gray-300 rounded-lg focus:ring focus:ring-red-300" />
             </div>
           </div>
-        </div>
 
-        <div className="form-2"></div>
-        <div className="form-3"></div>
-        <div className="form-4"></div>
-        <div className="form-5"></div>
+          {/* Select Approver */}
+          <div className="flex items-center gap-4">
+            <label className="text-gray-700 font-semibold">Approve By</label>
+            <select className="p-2 border border-gray-300 rounded-lg focus:ring focus:ring-red-300" value={approvedBy} onChange={(e) => setApprovedBy(e.target.value)}>
+              <option value="CSE HOD">CSE HOD</option>
+              <option value="Warden">Warden</option>
+              <option value="Principal">Principal</option>
+            </select>
+          </div>
+
+          {/* Subject & Reason */}
+          <div className="flex flex-col gap-2">
+            <label className="text-gray-700 font-semibold">Subject:</label>
+            <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} className="p-2 border border-gray-300 rounded-lg focus:ring focus:ring-red-300" />
+            <label className="text-gray-700 font-semibold">Reason:</label>
+            <textarea value={reason} onChange={(e) => setReason(e.target.value)} className="p-2 border border-gray-300 rounded-lg focus:ring focus:ring-red-300" rows="3" />
+          </div>
+
+          {/* Submit Button */}
+          <button onClick={handleSubmit} disabled={loading} className={`w-full p-3 ${loading ? "bg-gray-400" : "bg-red-500 hover:bg-red-600"} text-white rounded-lg font-semibold transition`}>
+            {loading ? "Submitting..." : "Apply Leave"}
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -8,6 +8,8 @@ app.use(cors()); //
 app.use(express.json());
 
 app.post("/register", registerStudent);
+
+
 app.post("/applyLeave", applyLeave);
 app.get("/getLeave/:regno", getStudentLeaves); // Corrected
 

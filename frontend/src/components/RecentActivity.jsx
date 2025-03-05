@@ -23,6 +23,7 @@ const RecentActivity = () => {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-5 w-[800px]">
+      {/* Header */}
       <div className="flex justify-between items-center border-b-2 border-gray-300 pb-2 mb-4">
         <div className="flex gap-2">
           <button className="w-4 h-4 bg-red-500 rounded-full border-none"></button>
@@ -31,8 +32,11 @@ const RecentActivity = () => {
         </div>
         <h3 className="text-lg font-bold">Recent activity</h3>
       </div>
+
+      {/* Main Content */}
       <div className="flex gap-4">
-        <div className="w-4/5 flex flex-col gap-2">
+        {/* Left Section - Activities */}
+        <div className="w-[85%] flex flex-col gap-2 min-h-full">
           {activities.length > 0 ? (
             activities.map((activity, index) => (
               <div key={index} className="bg-gray-200 p-3 rounded-md">
@@ -45,12 +49,14 @@ const RecentActivity = () => {
             <p>No recent activities found.</p>
           )}
         </div>
-        <div className="flex flex-col gap-2">
+
+        {/* Right Section - Status */}
+        <div className="flex flex-1 flex-col justify-between items-center min-h-full">
           {activities.length > 0 &&
             activities.map((activity, index) => (
               <span
                 key={index}
-                className={`px-3 py-1 rounded-md text-white font-bold text-center ${
+                className={`px-3 py-1 rounded-md text-white font-bold text-center w-full text-center ${
                   activity.status.toLowerCase() === "approved"
                     ? "bg-green-600"
                     : activity.status.toLowerCase() === "rejected"
