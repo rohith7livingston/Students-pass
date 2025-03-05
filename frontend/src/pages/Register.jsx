@@ -2,27 +2,32 @@ import { useState } from "react";
 import axios from "axios";
 
 function Registration() {
-  const [FullName, setFullName] = useState("");
-  const [Email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
-  const [ConfirmPassword, setConfirmPassword] = useState("");
-  const [PhoneNumber, setPhoneNumber] = useState("");
-  const [registernumber, setregisternumber] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmpassword] = useState("");
+ 
+  const [regno, setRegno] = useState("");
 
   let postfunc = async (postobj) => {
-    let result = await axios.post("http://localhost:5000/general/register", postobj);
+    let result = await axios.post("http://localhost:5000/register", postobj);
     console.log(result);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    if (Password !== ConfirmPassword) {
-      alert("Password and Confirm Password must be the same!");
+    let postobj={fullname,email,regno,password,confirmpassword}
+    
+    if (password !== confirmpassword) {
+      alert("password and Confirm password must be the same!");
       return;
     }
+    else{
+      postfunc(postobj);
+      alert("Registration Successful!");
+    }
 
-    alert("Registration Successful!");
+    
     // Here, you can proceed with further logic like sending data to a backend.
   };
 
@@ -36,12 +41,12 @@ function Registration() {
             Full Name
           </label>
           <input
-            value={FullName}
+            value={fullname}
             type="text"
             id="name"
             name="name"
             placeholder="Enter your full name"
-            onChange={(event) => setFullName(event.target.value)}
+            onChange={(event) => setFullname(event.target.value)}
             required
             className="w-full p-2.5 my-2 rounded-md bg-[#eaeaea] outline-none"
           />
@@ -50,7 +55,7 @@ function Registration() {
             Email
           </label>
           <input
-            value={Email}
+            value={email}
             type="email"
             id="email"
             name="email"
@@ -60,16 +65,16 @@ function Registration() {
             className="w-full p-2.5 my-2 rounded-md bg-[#eaeaea] outline-none"
           />
 
-          <label htmlFor="registernumber" className="block text-left mt-2.5 text-red-700">
+          <label htmlFor="regno" className="block text-left mt-2.5 text-red-700">
             Reg No :
           </label>
           <input
-            value={registernumber}
+            value={regno}
             type="text"
-            id="registernumber"
-            name="registernumber"
+            id="regno"
+            name="regno"
             placeholder="Enter your register number"
-            onChange={(event) => setregisternumber(event.target.value)}
+            onChange={(event) => setRegno(event.target.value)}
             required
             className="w-full p-2.5 my-2 rounded-md bg-[#eaeaea] outline-none"
           />
@@ -80,7 +85,7 @@ function Registration() {
             Password
           </label>
           <input
-            value={Password}
+            value={password}
             type="password"
             id="password"
             name="password"
@@ -91,15 +96,15 @@ function Registration() {
           />
 
           <label htmlFor="confirm_password" className="block text-left mt-2.5 text-red-700">
-            Confirm Password
+            Confirm password
           </label>
           <input
-            value={ConfirmPassword}
+            value={confirmpassword}
             type="password"
             id="confirm_password"
             name="confirm_password"
             placeholder="Confirm your password"
-            onChange={(event) => setConfirmPassword(event.target.value)}
+            onChange={(event) => setConfirmpassword(event.target.value)}
             required
             className="w-full p-2.5 my-2 rounded-md bg-[#eaeaea] outline-none"
           />

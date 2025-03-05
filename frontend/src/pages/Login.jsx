@@ -2,18 +2,31 @@ import { useState } from "react";
 import axios from "axios";
 
 function Login() {
+  const [regno, setRegno] = useState("");
   const [password, setPassword] = useState("");
-  const [registernumber, setRegisterNumber] = useState("");
 
-  const postfunc = async (postobj) => {
-    let result = await axios.post("http://localhost:5000/general/register", postobj);
+  const getfunc = async (postobj) => {
+    let result = await axios.get("http://localhost:5000/login", {params:postobj}); 
     console.log(result);
+    if(result.data==="loginsuccess")
+    {
+      alert("login successful");
+    }
+    else if(result.data==="passwordwrong")
+    {
+      alert("enter correct password");
+    }
+    else 
+    {
+      alert("no such account exits sign up to create your account")
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert("Login Successful!");
+   
     // Further logic can be added here
+    getfunc({regno,password});
   };
 
   return (
@@ -29,12 +42,12 @@ function Login() {
             Reg No :
           </label>
           <input
-            value={registernumber}
+            value={regno}
             type="text"
             id="registernumber"
             name="registernumber"
             placeholder="Enter your register number"
-            onChange={(event) => setRegisterNumber(event.target.value)}
+            onChange={(event) => setRegno(event.target.value)}
             required
             className="w-full p-2.5 my-2 rounded-md bg-[#eaeaea] outline-none"
           />
