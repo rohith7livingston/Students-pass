@@ -1,0 +1,104 @@
+[{
+  "_id": {
+    "$oid": "67c67d9108d951f9ac6a6292"
+  },
+  "studentId": "22K61A0529",
+  "leaveType": "Sick Leave",
+  "dayType": "Full Day",
+  "startDate": {
+    "$date": "2025-03-10T00:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-03-12T00:00:00.000Z"
+  },
+  "approvedBy": "Warden",
+  "subject": "Medical Leave Request",
+  "reason": "I am suffering from fever and need rest.",
+  "status": "Approved",
+  "rejectionReason": "",
+  "createdAt": {
+    "$date": "2025-03-04T04:12:01.811Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-04T04:12:01.811Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67c67f3f08d951f9ac6a629e"
+  },
+  "studentId": "22K61A0529",
+  "leaveType": "Permission",
+  "dayType": "Full Day",
+  "startDate": {
+    "$date": "2025-03-04T00:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-03-04T00:00:00.000Z"
+  },
+  "approvedBy": "CSE HOD",
+  "subject": "I Missed my bus",
+  "reason": "Sir i am sorry to inform this , i have missed by bus this morning \nand couldn't able to attend the collage",
+  "status": "Approved",
+  "rejectionReason": "",
+  "createdAt": {
+    "$date": "2025-03-04T04:19:11.195Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-04T04:19:11.195Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67c681eb08d951f9ac6a62a1"
+  },
+  "studentId": "22K61A0529",
+  "leaveType": "Sick Leave",
+  "dayType": "Full Day",
+  "startDate": {
+    "$date": "2025-03-04T00:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-03-04T00:00:00.000Z"
+  },
+  "approvedBy": "CSE HOD",
+  "subject": "I missed bus",
+  "reason": "ok na !!",
+  "status": "rejected",
+  "rejectionReason": "",
+  "createdAt": {
+    "$date": "2025-03-04T04:30:35.195Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-04T04:30:35.195Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "67c68a7f5eb46ebe3aea1e17"
+  },
+  "studentId": "22K61A0529",
+  "leaveType": "Sick Leave",
+  "dayType": "Full Day",
+  "startDate": {
+    "$date": "2025-03-10T00:00:00.000Z"
+  },
+  "endDate": {
+    "$date": "2025-03-12T00:00:00.000Z"
+  },
+  "approvedBy": "Warden",
+  "subject": "Medical Leave Request",
+  "reason": "I am suffering from fever and need rest.",
+  "status": "Pending",
+  "rejectionReason": "",
+  "createdAt": {
+    "$date": "2025-03-04T05:07:11.927Z"
+  },
+  "updatedAt": {
+    "$date": "2025-03-04T05:07:11.927Z"
+  },
+  "__v": 0
+}]

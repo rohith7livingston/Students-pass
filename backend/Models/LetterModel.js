@@ -47,5 +47,5 @@ const LetterSchema = new mongoose.Schema({
     }
 }, { timestamps: true }); // Adds createdAt and updatedAt fields
 
-const LetterModel = mongoose.model("Leave", LetterSchema);
+const LetterModel = mongoose.model("Leaves", LetterSchema);
 module.exports = {LetterModel};

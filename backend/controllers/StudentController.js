@@ -86,14 +86,14 @@ const applyLeave = async (req, res) => {
 
 
 //getting leaves
+//getting leaves
 const getStudentLeaves = async (req, res) => {
     try {
-        const { regno } = req.query;
-        
+        const regno = req.params.regno;  // Use regno from URL params
+
         const leaveLetters = await LetterModel.find({ studentId: regno });
 
-        if (leaveLetters.length === 0) 
-        {
+        if (leaveLetters.length === 0) {
             return res.status(404).json({ message: "No leave records found" });
         }
 
@@ -103,6 +103,7 @@ const getStudentLeaves = async (req, res) => {
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
+
 
 
 // Export all functions properly
