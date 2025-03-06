@@ -10,7 +10,7 @@ function Registration() {
   const [regno, setRegno] = useState("");
 
   let postfunc = async (postobj) => {
-    let result = await axios.post("http://localhost:5000/register", postobj);
+    let result = await axios.post("http://localhost:3000/register", postobj);
     console.log(result);
   };
 

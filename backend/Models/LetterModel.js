@@ -17,11 +17,11 @@ const LetterSchema = new mongoose.Schema({
         required: true 
     },
     startDate: { 
-        type: Date, 
+        type: String, 
         required: true 
     },
     endDate: { 
-        type: Date, 
+        type: String, 
         required: true 
     },
     approvedBy: { 
@@ -48,4 +48,4 @@ const LetterSchema = new mongoose.Schema({
 }, { timestamps: true }); // Adds createdAt and updatedAt fields
 
 const LetterModel = mongoose.model("Leave", LetterSchema);
-module.exports = LetterModel;
+module.exports = {LetterModel};

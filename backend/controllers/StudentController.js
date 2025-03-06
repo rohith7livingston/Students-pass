@@ -1,28 +1,39 @@
-const studentModel = require("../Models/StudentModels");
-const LetterModel = require("../Models/LetterModel");
+const {studentModel} = require("../Models/StudentModels");
+const {LetterModel} = require("../Models/LetterModel");
 
-// Student Registration
-const registerStudent = async (req, res) => {
+
+
+
+
+const registerStudent= async(req, res) =>{
     try {
-        const { Name, Email, Regno, Password, Branch, Hostler } = req.body;
+        console.log(req);
+        const { fullname, email, regno, password, confirmpassword,department,hostler} = req.body;
+        console.log(fullname," ",email," ",regno," ",password," ",confirmpassword," ",department," ",hostler);
 
-        // Check if the student with this Email or Regno already exists
-        const existingStudent = await studentModel.findOne({ $or: [{ Email }, { _id: Regno }] });
-        if (existingStudent) {
+       // Check if the student with this Email or Regno already exists
+        const existingStudent = await studentModel.findOne({ $or: [{ email }, { regno }] });
+        if (existingStudent) 
+        {
             return res.status(400).json({ message: "Email or Register Number already registered" });
-        }
+        } 
 
-        // Create a new student using Regno as _id
+        //Create a new student using Regno as _id
         const newStudent = new studentModel({
-            _id: Regno, // Use Regno as MongoDB _id
-            Name,
-            Email,
-            Password, // Password stored as plain text (not recommended for production)
-            Branch,
-            Hostler
+            // Use Regno as MongoDB _id
+            _id:regno,
+            fullname, 
+            email,
+            regno,
+            password, // Password stored as plain text (not recommended for production)
+            confirmpassword,
+            department,
+            hostler
         });
+        console.log(newStudent);
+        
 
-        // Save to the database
+        //Save to the database
         await newStudent.save();
 
         res.status(201).json({ message: "Student registered successfully", student: newStudent });
@@ -31,6 +42,10 @@ const registerStudent = async (req, res) => {
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
+
+
+
+
 
 // Apply for Leave
 const applyLeave = async (req, res) => {
@@ -73,10 +88,12 @@ const applyLeave = async (req, res) => {
 //getting leaves
 const getStudentLeaves = async (req, res) => {
     try {
-        const { regno } = req.params;
+        const { regno } = req.query;
+        
         const leaveLetters = await LetterModel.find({ studentId: regno });
 
-        if (leaveLetters.length === 0) {
+        if (leaveLetters.length === 0) 
+        {
             return res.status(404).json({ message: "No leave records found" });
         }
 
@@ -89,4 +106,4 @@ const getStudentLeaves = async (req, res) => {
 
 
 // Export all functions properly
-module.exports = { registerStudent, applyLeave ,getStudentLeaves};
+module.exports = { registerStudent,applyLeave,getStudentLeaves};

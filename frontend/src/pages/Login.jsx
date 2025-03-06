@@ -6,7 +6,7 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const getfunc = async (postobj) => {
-    let result = await axios.get("http://localhost:5000/login", {params:postobj}); 
+    let result = await axios.get("http://localhost:3000/login", {params:postobj}); 
     console.log(result);
     if(result.data==="loginsuccess")
     {
