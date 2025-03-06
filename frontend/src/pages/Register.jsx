@@ -12,6 +12,7 @@ function Registration() {
   let postfunc = async (postobj) => {
     let result = await axios.post("http://localhost:3000/register", postobj);
     console.log(result);
+    
   };
 
   const handleSubmit = (event) => {
@@ -24,7 +25,10 @@ function Registration() {
     }
     else{
       postfunc(postobj);
-      alert("Registration Successful!");
+     
+        alert("registration success");
+      
+     
     }
 
     
