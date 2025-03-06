@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-
+import { Navigate } from "react-router-dom";
 function Registration() {
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
@@ -25,6 +25,7 @@ function Registration() {
     else{
       postfunc(postobj);
       alert("Registration Successful!");
+      Navigate("/login")
     }
 
     

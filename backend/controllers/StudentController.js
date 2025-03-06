@@ -1,4 +1,4 @@
-const studentModel = require("../Models/StudentModels");
+const {studentModel} = require("../Models/StudentModels");
 const LetterModel = require("../Models/LetterModel");
 
 // Student Registration
@@ -7,7 +7,7 @@ const registerStudent = async (req, res) => {
         const { Name, Email, Regno, Password, Branch, Hostler } = req.body;
 
         // Check if the student with this Email or Regno already exists
-        const existingStudent = await studentModel.findOne({ $or: [{ Email }, { _id: Regno }] });
+        const existingStudent = await studentModel.findById(Regno);
         if (existingStudent) {
             return res.status(400).json({ message: "Email or Register Number already registered" });
         }
@@ -82,7 +82,6 @@ const applyLeave = async (req, res) => {
     }
 };
 
-module.exports = { applyLeave };
 
 
 //getting leaves

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-
+import {Navigate} from 'react-router-dom'
 function Login() {
   const [regno, setRegno] = useState("");
   const [password, setPassword] = useState("");
@@ -11,6 +11,7 @@ function Login() {
     if(result.data==="loginsuccess")
     {
       alert("login successful");
+      Navigate("/apply")
     }
     else if(result.data==="passwordwrong")
     {
