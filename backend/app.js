@@ -1,9 +1,7 @@
 const express = require("express");
 const cors = require("cors"); // Import CORS
-const { registerStudent} = require("./controllers/StudentController");
-const { LoginController } = require("./controllers/LoginController") ;
-const {applyLeave} = require("./controllers/StudentController");
-const {getStudentLeaves} = require("./controllers/StudentController");
+const { registerStudent ,LoginController,applyLeave,getStudentLeaves} = require("./controllers/StudentController");
+const { Adminlogin ,getPendingLeaveRequests } = require("./controllers/AdminController.js")
 const app = express();
 
 app.use(cors()); // 
@@ -13,5 +11,8 @@ app.post("/register", registerStudent);
 app.post("/applyleave", applyLeave);
 app.get("/getLeave/:regno", getStudentLeaves);
 app.get("/login",LoginController); // Corrected
+
+app.get("/Adminlogin",Adminlogin)
+app.get("/getLetters",getPendingLeaveRequests)
 
 module.exports = { app };
