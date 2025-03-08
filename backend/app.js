@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.post("/register", registerStudent);
 app.post("/applyleave", applyLeave);
-app.get("/getLeave/", getStudentLeaves);
+app.get("/getLeave/:regno", getStudentLeaves);
 app.get("/login",LoginController); // Corrected
 
 module.exports = { app };

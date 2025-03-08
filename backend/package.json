@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "21.0.0",
   "description": "backend",
-  "type":"commonjs",
+  "type": "commonjs",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js"

@@ -9,7 +9,7 @@ const RecentActivity = () => {
     const fetchRecentActivity = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/getLeave/${regno}`
+          `http://localhost:3000/getLeave/${regno}`
         );
         console.log("API Response:", response.data); // Debugging
         setActivities(response.data);
@@ -45,7 +45,9 @@ const RecentActivity = () => {
             <p>No recent activities found.</p>
           )}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-7">
+          {" "}
+          {/* Increased gap between activities */}
           {activities.length > 0 &&
             activities.map((activity, index) => (
               <span
