@@ -12,7 +12,7 @@ app.post("/applyleave", applyLeave);
 app.get("/getLeave/:regno", getStudentLeaves);
 app.get("/login",LoginController); // Corrected
 
-app.get("/Adminlogin",Adminlogin)
+app.post("/Adminlogin",Adminlogin)
 app.get("/getLetters",getPendingLeaveRequests)
 
 module.exports = { app };

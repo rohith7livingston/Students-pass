@@ -7,6 +7,9 @@ import Login from '../pages/Login';
 
 import ApplyLeave from '../pages/ApplyLeave';
 
+//Admins
+import AdminLogin from './../pages/AdminLogin.jsx'
+import Admin from '../pages/Admin.jsx';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
        
 function App() {
@@ -19,6 +22,8 @@ function App() {
           <Route path="/Register" element={<Register/>}/>
           <Route path="/login" element={<Login/>} />
           <Route path='/apply' element={<ApplyLeave/>}/>
+          <Route path='/adminlogin' element={<AdminLogin/>}/>
+          <Route path='/admin' element={<Admin/>}/>
           </Routes>
       </BrowserRouter>
     </main>

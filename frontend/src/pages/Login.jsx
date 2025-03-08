@@ -15,7 +15,7 @@ function Login() {
 
       if (result.data === "loginsuccess") {
         alert("Login successful");
-        // Redirect to /student after successful login
+        localStorage.setItem("regno", regno);
         navigate("/student");
       } else if (result.data === "passwordwrong") {
         alert("Enter correct password");

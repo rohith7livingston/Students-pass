@@ -3,7 +3,8 @@ import axios from "axios";
 
 const RecentActivity = () => {
   const [activities, setActivities] = useState([]);
-  const regno = "22K61A0529"; // Default registration number
+  const regno = localStorage.getItem("regno");
+
 
   useEffect(() => {
     const fetchRecentActivity = async () => {

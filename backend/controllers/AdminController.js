@@ -9,17 +9,14 @@ const Adminlogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if email exists in the mock database
     const admin = adminDocuments.find((admin) => admin.email === email);
 
     if (!admin) {
       return res.status(404).json({ message: "Admin not found" });
     }
 
-    // Password verification (using bcrypt)
-    const isPasswordValid = await bcrypt.compare(password, admin.password);
-    
-    if (isPasswordValid) {
+    // Password verification 
+    if (password === admin.password) {
       return res.status(200).json({ message: "Login successful", admin: { name: admin.name, email: admin.email } });
     } else {
       return res.status(401).json({ message: "Invalid password" });
@@ -42,7 +39,6 @@ const Adminlogin = async (req, res) => {
 // Fetch Pending Leave Requests
 const getPendingLeaveRequests = async (req, res) => {
   try {
-    // Fetch all leave requests that are pending
     const pendingRequests = await LetterModel.find({ status: "Pending" });
 
     if (pendingRequests.length === 0) {
