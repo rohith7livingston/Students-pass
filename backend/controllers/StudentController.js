@@ -31,6 +31,7 @@ const registerStudent= async(req, res) =>{
             hostler
         });
         console.log(newStudent);
+        console.log("registration successfull");
         
 
         //Save to the database

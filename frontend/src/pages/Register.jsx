@@ -1,212 +1,194 @@
-// import { useState } from "react";
-// import axios from "axios";
-// import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
-
-// function Registration() {
-//   const [fullname, setFullname] = useState("");
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [confirmpassword, setConfirmpassword] = useState("");
-//   const [regno, setRegno] = useState("");
-
-//   const navigate = useNavigate(); // Initialize navigate
-
-//   let postfunc = async (postobj) => {
-//     try {
-//       let result = await axios.post("http://localhost:3000/register", postobj);
-//       console.log(result);
-//       return result;
-//     } catch (error) {
-//       console.error("Registration failed:", error);
-//       alert("Registration failed. Please try again.");
-//     }
-//   };
-
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
-//     let postobj = { fullname, email, regno, password, confirmpassword };
-
-//     if (password !== confirmpassword) {
-//       alert("Password and Confirm password must be the same!");
-//       return;
-//     }
-
-//     const result = await postfunc(postobj);
-
-//     if (result) {
-//       alert("Registration Successful!");
-//       // Navigate to login page after successful registration
-//       navigate('/login');
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <div className="flex justify-center items-center min-h-screen bg-red-700 font-poppins ">
-//         <div className="mt-10 bg-white p-8 rounded-xl shadow-lg w-[470px] text-center">
-//           <h2 className="text-black mb-5 text-2xl font-semibold">Sign Up</h2>
-//           <form onSubmit={handleSubmit}>
-//             <label htmlFor="name" className="block text-left mt-2.5 text-red-700">
-//               Full Name
-//             </label>
-//             <input
-//               value={fullname}
-//               type="text"
-//               id="name"
-//               name="name"
-//               placeholder="Enter your full name"
-//               onChange={(event) => setFullname(event.target.value)}
-//               required
-//               className="w-full p-2.5 my-2 rounded-md bg-[#eaeaea] outline-none"
-//             />
-
-//             <label htmlFor="email" className="block text-left mt-2.5 text-red-700">
-//               Email
-//             </label>
-//             <input
-//               value={email}
-//               type="email"
-//               id="email"
-//               name="email"
-//               placeholder="Enter your email"
-//               onChange={(event) => setEmail(event.target.value)}
-//               required
-//               className="w-full p-2.5 my-2 rounded-md bg-[#eaeaea] outline-none"
-//             />
-
-//             <label htmlFor="regno" className="block text-left mt-2.5 text-red-700">
-//               Reg No :
-//             </label>
-//             <input
-//               value={regno}
-//               type="text"
-//               id="regno"
-//               name="regno"
-//               placeholder="Enter your register number"
-//               onChange={(event) => setRegno(event.target.value)}
-//               required
-//               className="w-full p-2.5 my-2 rounded-md bg-[#eaeaea] outline-none"
-//             />
-
-//             <label htmlFor="password" className="block text-left mt-2.5 text-red-700">
-//               Password
-//             </label>
-//             <input
-//               value={password}
-//               type="password"
-//               id="password"
-//               name="password"
-//               placeholder="Create a password"
-//               onChange={(event) => setPassword(event.target.value)}
-//               required
-//               className="w-full p-2.5 my-2 rounded-md bg-[#eaeaea] outline-none"
-//             />
-
-//             <label htmlFor="confirm_password" className="block text-left mt-2.5 text-red-700">
-//               Confirm password
-//             </label>
-//             <input
-//               value={confirmpassword}
-//               type="password"
-//               id="confirm_password"
-//               name="confirm_password"
-//               placeholder="Confirm your password"
-//               onChange={(event) => setConfirmpassword(event.target.value)}
-//               required
-//               className="w-full p-2.5 my-2 rounded-md bg-[#eaeaea] outline-none"
-//             />
-
-//             <button
-//               type="submit"
-//               className="w-full p-3 bg-red-700 text-white rounded-md cursor-pointer text-lg font-bold mt-4 transition duration-300 hover:bg-[rgba(20,20,20,0.285)]"
-//             >
-//               Register
-//             </button>
-//           </form>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Registration;
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function Registration() {
+const Register = ({ show, handleClose }) => {
+  const [showQuestions, setShowQuestions] = useState(false);
+  const [step, setStep] = useState(1);
+  const [showSubmit, setShowSubmit] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
     regno: "",
     password: "",
     confirmpassword: "",
+    department: "",
+    hostler: false,
   });
 
-  const [error, setError] = useState(""); // Handle errors
-  const navigate = useNavigate();
+  const questions = [
+    {
+      id: 1,
+      text: "Your Department",
+      options: ["CSE", "ECE", "EEE", "CIVIL", "MECH"],
+    },
+    { id: 2, text: "Are you a hostler?", options: ["YES", "NO"] },
+  ];
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  // Common Input Fields
+  const inputFields = [
+    { id: "fullname", type: "text", label: "Full Name" },
+    { id: "email", type: "email", label: "Email" },
+    { id: "regno", type: "text", label: "Reg No" },
+    { id: "password", type: "password", label: "Password" },
+    { id: "confirmpassword", type: "password", label: "Confirm Password" },
+  ];
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  // Registration Handler
+  const handleRegister = (e) => {
+    e.preventDefault();
 
-    if (formData.password !== formData.confirmpassword) {
-      setError("Passwords do not match!");
+    // Validation
+    if (
+      !formData.fullname.trim() ||
+      !formData.email.trim() ||
+      !formData.regno.trim()
+    ) {
+      toast.error("Fields cannot be empty!");
       return;
     }
 
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/register`, formData);
-      
-      if (response.status === 201) {
-        alert("Registration Successful!");
-        navigate("/login");
-      } else {
-        setError(response.data.message || "Registration failed");
-      }
-    } catch (error) {
-      setError("Server error. Please try again.");
-      console.error("Registration error:", error);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Invalid email format");
+      return;
+    }
+
+    if (formData.password !== formData.confirmpassword) {
+      toast.error("Passwords do not match!");
+      return;
+    }
+
+    setShowQuestions(true);
+  };
+
+  // Handle Next Step in Assessment
+  const handleNext = (answer) => {
+    if (step === 1) {
+      setFormData({ ...formData, department: answer });
+    } else if (step === 2) {
+      setFormData({ ...formData, hostler: answer === "YES" });
+    }
+
+    if (step < questions.length) {
+      setStep(step + 1);
+    } else {
+      setShowSubmit(true);
     }
   };
 
+  // Form Submission
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/register",
+        formData
+      );
+      if (response.status === 201) {
+        toast.success("Registration successful!");
+        setTimeout(() => {
+          handleClose();
+        }, 2500);
+      } else {
+        toast.error("Problem in registration. Contact support.");
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!show) return null;
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-red-700 font-poppins">
-      <div className="mt-10 bg-white p-8 rounded-xl shadow-lg w-[500px] text-center">
-        <h2 className="text-black mb-5 text-2xl font-semibold">Sign Up</h2>
-
-        {error && <p className="text-red-500">{error}</p>} {/* Display errors */}
-
-        <form onSubmit={handleSubmit}>
-          {["fullname", "email", "regno", "password", "confirmpassword"].map((field) => (
-            <div key={field} className="mb-4">
-              <label className="block text-left text-red-700 capitalize">{field.replace("confirm", "Confirm ")}</label>
-              <input
-                type={field.includes("password") ? "password" : "text"}
-                name={field}
-                placeholder={`Enter your ${field}`}
-                value={formData[field]}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border border-gray-300 rounded-lg"
-              />
-            </div>
-          ))}
-
-          <button type="submit" className="bg-red-700 text-white px-6 py-2 rounded-lg w-full mt-4">
-            Register
+    <div className="fixed inset-0 bg-gray-900 bg-opacity-20 flex justify-center items-center">
+      <div className="bg-white rounded-lg shadow-xl w-96 p-7">
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg font-semibold">
+            {showQuestions ? "tell us about you " : "User Registration"}
+          </h2>
+          <button
+            onClick={handleClose}
+            className="text-gray-500 hover:text-gray-800"
+          >
+            ✖
           </button>
-        </form>
+        </div>
 
-        <p className="mt-3 text-gray-600">
-          Already have an account? <Link to="/login" className="text-red-700 font-semibold">Login</Link>
-        </p>
+        {/* User Registration Form */}
+        {!showQuestions ? (
+          <form onSubmit={handleRegister} className="mt-4 flex flex-col gap-3">
+            {inputFields.map(({ id, type, label }) => (
+              <div key={id}>
+                <label
+                  htmlFor={id}
+                  className="block text-left mt-2.5 text-red-700"
+                >
+                  {label}
+                </label>
+                <input
+                  id={id}
+                  type={type}
+                  placeholder={label}
+                  className="border p-2 rounded-md w-full"
+                  value={formData[id]}
+                  onChange={(e) =>
+                    setFormData({ ...formData, [id]: e.target.value })
+                  }
+                />
+              </div>
+            ))}
+
+            <button
+              type="submit"
+              className="bg-red-700 text-white px-4 py-2 rounded-md"
+            >
+              Register
+            </button>
+          </form>
+        ) : (
+          <>
+            {/* Mental Health Questions */}
+            <h4 className="text-xl font-bold mt-2">
+              {questions[step - 1].text}
+            </h4>
+            <div className="flex flex-col gap-2 mt-4">
+              {questions[step - 1].options.map((option, index) => (
+                <button
+                  key={index}
+                  className="bg-red-700 text-white px-4 py-2 rounded-md w-full"
+                  onClick={() => handleNext(option)}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+
+            {showSubmit && (
+              <button
+                className={`bg-red-700 text-white px-4 py-2 rounded-md mt-4 w-full ${
+                  loading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "Submit"}
+              </button>
+            )}
+          </>
+        )}
+
+        <ToastContainer position="top-right" autoClose={2500} />
       </div>
     </div>
   );
-}
+};
 
-export default Registration;
+export default Register;
