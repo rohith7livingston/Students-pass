@@ -1,4 +1,5 @@
 
+import Dashboard from '../pages/Dashboard';
 import Register from '../pages/Register';
 
 import StudentHome from '../pages/StudentHome';
@@ -13,8 +14,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
        
 function App() {
   return (
+
     <main id="app">
+      
+      
       <BrowserRouter>
+      <Dashboard/>
         <Routes>
          
           <Route path="/Student" element={<StudentHome />} />
