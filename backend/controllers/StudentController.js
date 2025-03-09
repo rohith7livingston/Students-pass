@@ -128,7 +128,6 @@ const applyLeave = async (req, res) => {
         res.status(201).json({ message: "Leave request submitted successfully", leave: newLeave });
     } catch (error) {
         console.error("Error applying for leave:", error);
-        res.status(500).json({ message: "Server error", error: error.message });
     }
 };
 
