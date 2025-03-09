@@ -1,28 +1,19 @@
-import React, { useState } from "react";
-import "./../stylesheet/Dashboard.css"; // Add CSS file for styling
-import Registration from "./Register";// Import Registration Form component
+import MentalHealthAssessment from "./MentalHealthAssessment"
+import { useState } from "react";
+const Dashboard=()=>{
 
-const Dashboard = () => {
-  const [isRegisterOpen, setRegisterOpen] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
-  const openRegister = () => {
-    setRegisterOpen(true);
-  };
 
-  const closeRegister = () => {
-    setRegisterOpen(false);
-  };
-
-  return (
-    <div className={`dashboard ${isRegisterOpen ? "blur" : ""}`}>
-      <h1>Welcome to Dashboard</h1>
-      <button onClick={openRegister} className="register-btn">
-        Register
+    return(
+        <div className="flex justify-center items-center h-screen">
+      <button className="bg-blue-600 text-white px-5 py-2 rounded-md" onClick={() => setShowModal(true)}>
+        Start Assessment
       </button>
 
-      {isRegisterOpen && <Registration onClose={closeRegister} />}
+      <MentalHealthAssessment show={showModal} handleClose={() => setShowModal(false)} />
     </div>
-  );
-};
+    )
+}
 
 export default Dashboard;

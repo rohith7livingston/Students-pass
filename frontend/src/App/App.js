@@ -1,5 +1,6 @@
 
-import Dashboard from '../pages/Dashboard';
+
+
 import Register from '../pages/Register';
 
 import StudentHome from '../pages/StudentHome';
@@ -10,18 +11,28 @@ import ApplyLeave from '../pages/ApplyLeave';
 
 import Departments from '../pages/Departments';
 
+import Dashboard from '../pages/Dashboard';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+
        
 function App() {
+
+
+  
+  
   return (
 
     <main id="app">
       
       
       <BrowserRouter>
-      <Dashboard/>
+    
+     
         <Routes>
          
+          <Route path="/dashboard" element={<Dashboard/>} />
           <Route path="/Student" element={<StudentHome />} />
           <Route path="/Register" element={<Register/>}/>
           <Route path="/login" element={<Login/>} />
