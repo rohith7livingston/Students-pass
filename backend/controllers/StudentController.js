@@ -5,6 +5,27 @@ const {LetterModel} = require("../Models/LetterModel");
 
 
 
+const getLeavesData = async (req, res) => {
+    try {
+        const leaves = await LetterModel.find({}, { leaveType: 1, _id: 0 });
+
+        // Convert array to an object with counts
+        const leaveCounts = leaves.reduce((acc, curr) => {
+            acc[curr.leaveType] = (acc[curr.leaveType] || 0) + 1;
+            return acc;
+        }, {});
+
+        res.json(leaveCounts); // Send response to frontend
+    } catch (error) {
+        console.error("Error fetching leaves data:", error);
+        res.status(500).json({ message: "Internal Server Error" }); // Send error response
+    }
+};
+
+
+
+
+
 const registerStudent= async(req, res) =>{
     try {
         console.log(req);
@@ -129,7 +150,6 @@ const applyLeave = async (req, res) => {
         res.status(201).json({ message: "Leave request submitted successfully", leave: newLeave });
     } catch (error) {
         console.error("Error applying for leave:", error);
-        res.status(500).json({ message: "Server error", error: error.message });
     }
 };
 
@@ -156,4 +176,4 @@ const getStudentLeaves = async (req, res) => {
 
 
 // Export all functions properly
-module.exports = { registerStudent,applyLeave,getStudentLeaves,LoginController};
+module.exports = { registerStudent,applyLeave,getStudentLeaves,LoginController,getLeavesData};

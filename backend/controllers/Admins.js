@@ -2,8 +2,8 @@
 const adminDocuments = [
     {
       id: 1,
-      name: "NagendraNad",
-      email: "Nagendran@example.com",
+      name: "Admin1",
+      email: "admin@gmail.com",
       password: "password123",
       leavesEvaluated: ["Sick Leave", "Casual Leave"],
     },

@@ -15,7 +15,7 @@ import Dashboard from '../pages/Dashboard';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-
+import Admin from './../pages/Admin'
        
 function App() {
 
@@ -37,7 +37,7 @@ function App() {
           <Route path="/Register" element={<Register/>}/>
           <Route path="/login" element={<Login/>} />
           <Route path='/apply' element={<ApplyLeave/>}/>
-          <Route path="/departments/:regno" element={<Departments/>}/>
+          <Route path='/admin' element={<Admin/>}/>
           </Routes>
       </BrowserRouter>
     </main>
