@@ -1,3 +1,6 @@
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
+
 import Register from "../pages/Register";
 
 import StudentHome from "../pages/StudentHome";
