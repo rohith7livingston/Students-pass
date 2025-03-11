@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import axios from "axios";
+import axios from "axios"; // Import axios
 import "./../stylesheet/ApplyLeave.css";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
+import { ToastContainer ,toast } from "react-toastify";
 const ApplyLeave = () => {
   const [leaveType, setLeaveType] = useState("Sick Leave");
   const [dayType, setDayType] = useState("Full Day");
@@ -40,7 +38,7 @@ const ApplyLeave = () => {
     setLoading(true);
 
     const requestData = {
-      studentId: regno,
+      studentId: "22K61A0529", // Replace with actual logged-in student ID
       leaveType,
       dayType,
       startDate,
@@ -65,7 +63,7 @@ const ApplyLeave = () => {
       setApprovedBy("CSE HOD");
     } catch (error) {
       console.error("Error submitting leave request:", error);
-      toast.error(error.response?.data?.message || "Server error");
+      alert(error.response?.data?.message || "Server error");
     } finally {
       setLoading(false);
     }
