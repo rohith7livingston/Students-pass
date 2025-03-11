@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import StudentRequestActivity from "../components/StudentRequestActivity";
 import axios from "axios";
-import LeaveRequestModal from "../components/LeaveRequestModal";
+
 
 
 
@@ -43,28 +43,10 @@ const Admin = () => {
     fetchData();
   }, []);
 
-  const [selectedLetter, setSelectedLetter] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const handleLetterClick = (letter) => {
-    setSelectedLetter(letter);
-    setModalOpen(true);
-  };
-
-  const handleApprove = () => {
-    console.log("Approved:", selectedLetter);
-    setModalOpen(false);
-  };
-
-  const handleReject = () => {
-    console.log("Rejected:", selectedLetter);
-    setModalOpen(false);
-  };
-
   return (
     <div className="bg-red-100 min-h-screen">
       <Navbar />
-
+      
       <div className="flex flex-col md:flex-row">
         {/* Sidebar */}
         <div className="w-full md:w-1/3 p-6  shadow-md">
@@ -91,27 +73,29 @@ const Admin = () => {
             <Tooltip />
             <Legend />
           </PieChart>
+          <div className="mt-4 text-lg">
+            <p className="font-bold">Approved: <span className="text-green-500">29</span></p>
+            <p className="font-bold">Pending: <span className="text-yellow-500">12</span></p>
+            <p className="font-bold">Rejected: <span className="text-red-500">7</span></p>
+          </div>
         </div>
 
         {/* Main Content */}
         <div className="w-full md:w-2/3 p-8">
-          <h2 className="text-2xl font-bold">
-            Welcome <span className="text-red-500">{user.name}</span>
-          </h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold">
+              Welcome <span className="text-red-500">{user.name}</span>
+            </h2>
+            <div className="flex gap-4">
+              <button className="bg-white p-2 rounded-full shadow">✉️</button>
+              <button className="bg-white p-2 rounded-full shadow">👤</button>
+            </div>
+          </div>
 
           {/* Student Requests */}
-          <StudentRequestActivity onLetterClick={handleLetterClick} />
-        </div>
+            <StudentRequestActivity/>
+          </div>
       </div>
-
-      {/* Modal */}
-      <LeaveRequestModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onApprove={handleApprove}
-        onReject={handleReject}
-        student={selectedLetter}
-      />
     </div>
   );
 };
