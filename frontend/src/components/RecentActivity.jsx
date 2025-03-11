@@ -59,7 +59,7 @@ const RecentActivity = ({ limit = 5 }) => {
             >
               {/* Leave Request Title */}
               <span className="font-medium text-gray-900 flex-1">
-                {activity.leaveType || "No Subject"}
+                {activity.subject || "No Subject"}
               </span>
 
               {/* Status Badge */}

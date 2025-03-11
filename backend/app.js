@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors"); // Import CORS
-const { registerStudent ,LoginController,applyLeave,getStudentLeaves,getLeavesData} = require("./controllers/StudentController");
+const { registerStudent ,LoginController,applyLeave,getStudentLeaves,getLeavesData,approveLeave,rejectLeave} = require("./controllers/StudentController");
 const { Adminlogin ,getPendingLeaveRequests } = require("./controllers/AdminController.js")
 const app = express();
 
@@ -14,5 +14,6 @@ app.get("/login",LoginController); // Corrected
 app.get("/getleaveSdata",getLeavesData);
 app.post("/Adminlogin",Adminlogin)
 app.get("/getLetters",getPendingLeaveRequests)
-
+app.post("/approveLeave/:id",approveLeave)
+app.post("/rejectLeave/:id",rejectLeave)
 module.exports = { app };

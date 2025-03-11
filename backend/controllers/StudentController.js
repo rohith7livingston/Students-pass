@@ -176,5 +176,71 @@ const getStudentLeaves = async (req, res) => {
 
 
 
+//aproving leaves
+const approveLeave = async (req, res) => {
+    try {
+        const leaveId = req.params.id;
+        const approver = req.body.approvedBy || "Admin"; // You can pass the approver in the body
+
+        const updatedLeave = await LetterModel.findByIdAndUpdate(
+            leaveId,
+            {
+                status: "Approved",
+                approvedBy: approver,
+                rejectionReason: ""
+            },
+            { new: true }
+        );
+
+        if (!updatedLeave) {
+            return res.status(404).json({ message: "Leave request not found" });
+        }
+
+        res.status(200).json({
+            message: "Leave request approved successfully",
+            leave: updatedLeave
+        });
+    } catch (error) {
+        console.error("Error approving leave:", error);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
+
+
+//rejecting leaves
+const rejectLeave = async (req, res) => {
+    try {
+        const leaveId = req.params.id;
+        const { rejectionReason, rejectedBy } = req.body;
+
+        if (!rejectionReason) {
+            return res.status(400).json({ message: "Rejection reason is required" });
+        }
+
+        const updatedLeave = await LetterModel.findByIdAndUpdate(
+            leaveId,
+            {
+                status: "Rejected",
+                approvedBy: rejectedBy || "Admin",
+                rejectionReason: rejectionReason
+            },
+            { new: true }
+        );
+
+        if (!updatedLeave) {
+            return res.status(404).json({ message: "Leave request not found" });
+        }
+
+        res.status(200).json({
+            message: "Leave request rejected successfully",
+            leave: updatedLeave
+        });
+    } catch (error) {
+        console.error("Error rejecting leave:", error);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
+
+
 // Export all functions properly
-module.exports = { registerStudent,applyLeave,getStudentLeaves,LoginController,getLeavesData};
+module.exports = { registerStudent,applyLeave,getStudentLeaves,LoginController,getLeavesData,approveLeave,rejectLeave};

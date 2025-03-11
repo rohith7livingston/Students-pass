@@ -20,13 +20,15 @@ const Admin = () => {
   // Function to fetch data from backend
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/getLeavesData");
-      console.log("Fetched Data:", response.data);
-
+      const response = await axios.get("http://localhost:3000/getLetters");
+      
+      
+  
+      console.log("fetched data is",response.data.leaveTypeCounts);
       // Convert response object to array format for PieChart
-      const formattedData = Object.keys(response.data).map((key) => ({
+      const formattedData = Object.keys(response.data.leaveTypeCounts).map((key) => ({
         name: key,
-        value: response.data[key],
+        value: response.data.leaveTypeCounts[key],
       }));
 
       setData(formattedData);

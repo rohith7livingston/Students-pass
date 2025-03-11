@@ -45,7 +45,24 @@ const getPendingLeaveRequests = async (req, res) => {
       return res.status(404).json({ message: "No pending leave requests" });
     }
 
-    res.status(200).json({ pendingRequests });
+    // Count occurrences of each leaveType
+    const leaveTypeCounts = {
+      Permission: 0,
+      "Sick Leave": 0,
+      Leave: 0,
+    };
+
+    pendingRequests.forEach((request) => {
+      if (leaveTypeCounts.hasOwnProperty(request.leaveType)) {
+        leaveTypeCounts[request.leaveType]++;
+      }
+    });
+
+    // Add the counts as a subdocument in the response
+    res.status(200).json({
+      pendingRequests,
+      leaveTypeCounts,
+    });
 
   } catch (error) {
     console.error("Error fetching pending leave requests:", error);
