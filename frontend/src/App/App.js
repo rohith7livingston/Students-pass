@@ -1,44 +1,31 @@
+import Register from "../pages/Register";
 
+import StudentHome from "../pages/StudentHome";
 
+import Login from "../pages/Login";
 
-import Register from '../pages/Register';
+import ApplyLeave from "../pages/ApplyLeave";
 
-import StudentHome from '../pages/StudentHome';
+import Departments from "../pages/Departments";
 
-import Login from '../pages/Login';
+import Dashboard from "../pages/Dashboard";
 
-import ApplyLeave from '../pages/ApplyLeave';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Departments from '../pages/Departments';
+import Admin from "./../pages/Admin";
 
-import Dashboard from '../pages/Dashboard';
-
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-import Admin from './../pages/Admin'
-       
 function App() {
-
-
-  
-  
   return (
-
     <main id="app">
-      
-      
       <BrowserRouter>
-    
-     
         <Routes>
-         
-          <Route path="/dashboard" element={<Dashboard/>} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/Student" element={<StudentHome />} />
-          <Route path="/Register" element={<Register/>}/>
-          <Route path="/login" element={<Login/>} />
-          <Route path='/apply' element={<ApplyLeave/>}/>
-          <Route path='/admin' element={<Admin/>}/>
-          </Routes>
+          <Route path="/Register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/apply" element={<ApplyLeave />} />
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
       </BrowserRouter>
     </main>
   );
