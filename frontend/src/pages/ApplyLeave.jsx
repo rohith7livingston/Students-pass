@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import axios from "axios"; // Import axios
+import axios from "axios";
 import "./../stylesheet/ApplyLeave.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ApplyLeave = () => {
   const [leaveType, setLeaveType] = useState("Sick Leave");
@@ -12,17 +14,18 @@ const ApplyLeave = () => {
   const [reason, setReason] = useState("");
   const [approvedBy, setApprovedBy] = useState("CSE HOD"); // Default Approver
   const [loading, setLoading] = useState(false);
+  const regno = localStorage.getItem("regno");
 
   const handleSubmit = async () => {
     if (!startDate || !endDate || !subject || !reason) {
-      alert("Please fill in all fields.");
+      toast.error("Please fill in all fields.");
       return;
     }
 
     setLoading(true);
 
     const requestData = {
-      studentId: "22K61A0529", // Replace with actual logged-in student ID
+      studentId: regno,
       leaveType,
       dayType,
       startDate,
@@ -33,12 +36,12 @@ const ApplyLeave = () => {
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/applyLeave", requestData);
-      alert("Leave request submitted successfully!");
+      const response = await axios.post("http://localhost:3000/applyLeave", requestData);
+      toast.success("Leave request submitted successfully!");
       console.log(response.data);
     } catch (error) {
       console.error("Error submitting leave request:", error);
-      alert(error.response?.data?.message || "Server error");
+      toast.error(error.response?.data?.message || "Server error");
     } finally {
       setLoading(false);
     }
@@ -119,6 +122,7 @@ const ApplyLeave = () => {
           </button>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} closeOnClick pauseOnHover draggable />
     </div>
   );
 };
