@@ -158,14 +158,15 @@ const applyLeave = async (req, res) => {
 //getting leaves
 const getStudentLeaves = async (req, res) => {
     try {
+        
         const regno = req.params.regno;  // Use regno from URL params
-
-        const leaveLetters = await LetterModel.find({ studentId: regno });
+        
+        const leaveLetters = await LetterModel.find({ studentId: regno }).sort({ createdAt: -1 });
 
         if (leaveLetters.length === 0) {
             return res.status(404).json({ message: "No leave records found" });
         }
-
+        console.log(leaveLetters);
         res.status(200).json(leaveLetters);
     } catch (error) {
         console.error("Error fetching leave records:", error);

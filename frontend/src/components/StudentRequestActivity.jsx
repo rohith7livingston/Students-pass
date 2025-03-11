@@ -41,7 +41,7 @@ const StudentRequestActivity = () => {
               className="bg-[#f7f7f7] p-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:scale-100 cursor-pointer flex flex-col sm:flex-row items-start sm:items-center w-full sm:w-[95%] lg:w-[85%] xl:w-[80%] mx-auto"
               onClick={() => setSelectedLetter(request)}
             >
-              <span className="font-bold flex-1">{request.subject || "No Title"}</span>
+              <span className="font-bold flex-1">{request.leaveType || "No Title"}</span>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full sm:w-auto mt-2 sm:mt-0">
                 <button className="bg-green-500 text-white px-4 py-1 rounded w-full sm:w-24">
                   Approve
