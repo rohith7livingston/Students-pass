@@ -1,12 +1,22 @@
 import { useState, useRef, useEffect } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; // React Router
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
   const navRef = useRef();
+  const navigate = useNavigate(); // React Router navigation
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    setLoggingOut(true);
+    setTimeout(() => {
+      navigate("/login"); // Redirect to /login after animation
+    }, 2000);
   };
 
   // Close navbar when clicking outside
@@ -27,7 +37,7 @@ function Navbar() {
       <img src="sasi.png" alt="Logo" className="h-16 w-auto" />
 
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex gap-6">
+      <nav className="hidden md:flex gap-6 items-center">
         {["Home", "Notifications", "About Me"].map((item) => (
           <a
             key={item}
@@ -37,6 +47,15 @@ function Navbar() {
             {item}
           </a>
         ))}
+
+        {/* Logout Button (Desktop) - Transparent */}
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 text-white hover:text-gray-300 transition duration-300"
+        >
+          <FaSignOutAlt className="text-xl" />
+          Logout
+        </button>
       </nav>
 
       {/* Mobile Navigation Button */}
@@ -57,12 +76,28 @@ function Navbar() {
         </button>
 
         {/* Mobile Menu Links */}
-        {["Home", "notifications", "Profile"].map((item) => (
+        {["Home", "Notifications", "Profile"].map((item) => (
           <a key={item} href="/#" className="text-xl py-3" onClick={toggleNavbar}>
             {item}
           </a>
         ))}
+
+        {/* Logout Button (Mobile) - Transparent */}
+        <button
+          onClick={handleLogout}
+          className="mt-6 flex items-center gap-2 text-white hover:text-gray-300 transition duration-300"
+        >
+          <FaSignOutAlt className="text-xl" />
+          Logout
+        </button>
       </nav>
+
+      {/* Logging Out Animation */}
+      {loggingOut && (
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+          <div className="text-white text-2xl animate-pulse">Logging Out...</div>
+        </div>
+      )}
     </header>
   );
 }

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { motion } from "framer-motion";
-import axios from "axios"; // Import axios
+import axios from "axios";
 import "./../stylesheet/ApplyLeave.css";
-import { ToastContainer ,toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+
 const ApplyLeave = () => {
   const [leaveType, setLeaveType] = useState("Sick Leave");
   const [dayType, setDayType] = useState("Full Day");
@@ -10,26 +12,25 @@ const ApplyLeave = () => {
   const [endDate, setEndDate] = useState("");
   const [subject, setSubject] = useState("");
   const [reason, setReason] = useState("");
-  const [approvedBy, setApprovedBy] = useState("CSE HOD"); // Default Approver
+  const [approvedBy, setApprovedBy] = useState("CSE HOD");
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate(); // Initialize navigate
 
   const user = JSON.parse(localStorage.getItem("user"));
   const regno = user?.regnoOrEmail;
 
-  // Safety check for regno (optional, but good practice)
   if (!regno) {
     toast.error("User not logged in. Please log in again.");
     return null;
   }
 
   const handleSubmit = async () => {
-    // Basic validation
     if (!startDate || !endDate || !subject.trim() || !reason.trim()) {
       toast.error("Please fill in all fields.");
       return;
     }
 
-    // Date validation (optional)
     if (new Date(startDate) > new Date(endDate)) {
       toast.error("End date must be after start date.");
       return;
@@ -38,7 +39,7 @@ const ApplyLeave = () => {
     setLoading(true);
 
     const requestData = {
-      studentId: "22K61A0529", // Replace with actual logged-in student ID
+      studentId: regno,
       leaveType,
       dayType,
       startDate,
@@ -51,9 +52,8 @@ const ApplyLeave = () => {
     try {
       const response = await axios.post("http://localhost:3000/applyLeave", requestData);
       toast.success(response.data.message || "Leave request submitted successfully!");
-      console.log("Server Response:", response.data);
 
-      // Reset form after success
+      // Reset form
       setLeaveType("Sick Leave");
       setDayType("Full Day");
       setStartDate("");
@@ -61,9 +61,15 @@ const ApplyLeave = () => {
       setSubject("");
       setReason("");
       setApprovedBy("CSE HOD");
+
+      // Redirect to /student after success
+      setTimeout(() => {
+        navigate("/student");
+      }, 2000); // 2 seconds delay for user to see the success message
+
     } catch (error) {
       console.error("Error submitting leave request:", error);
-      alert(error.response?.data?.message || "Server error");
+      toast.error(error.response?.data?.message || "Server error");
     } finally {
       setLoading(false);
     }
@@ -106,7 +112,6 @@ const ApplyLeave = () => {
 
         {/* Form */}
         <div className="space-y-4">
-          {/* Leave Type */}
           <div className="flex items-center gap-4">
             <label className="text-gray-700 font-semibold">Leave type</label>
             <select
@@ -120,7 +125,6 @@ const ApplyLeave = () => {
             </select>
           </div>
 
-          {/* Day Type */}
           <div className="flex items-center gap-4">
             <label className="text-gray-700 font-semibold">Day type</label>
             <label className="flex items-center gap-2 cursor-pointer">
@@ -143,7 +147,6 @@ const ApplyLeave = () => {
             </label>
           </div>
 
-          {/* Date Selection */}
           <div className="flex justify-between gap-4">
             <div className="flex flex-col flex-1">
               <label className="text-gray-700 font-semibold">From:</label>
@@ -152,7 +155,6 @@ const ApplyLeave = () => {
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 className="p-2 border border-gray-300 rounded-lg focus:ring focus:ring-red-300"
-                placeholder="Start date"
               />
             </div>
             <div className="flex flex-col flex-1">
@@ -162,12 +164,10 @@ const ApplyLeave = () => {
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
                 className="p-2 border border-gray-300 rounded-lg focus:ring focus:ring-red-300"
-                placeholder="End date"
               />
             </div>
           </div>
 
-          {/* Select Approver */}
           <div className="flex items-center gap-4">
             <label className="text-gray-700 font-semibold">Approve By</label>
             <select
@@ -181,7 +181,6 @@ const ApplyLeave = () => {
             </select>
           </div>
 
-          {/* Subject & Reason */}
           <div className="flex flex-col gap-2">
             <label className="text-gray-700 font-semibold">Subject:</label>
             <input
@@ -189,7 +188,6 @@ const ApplyLeave = () => {
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               className="p-2 border border-gray-300 rounded-lg focus:ring focus:ring-red-300"
-              placeholder="Enter subject"
             />
             <label className="text-gray-700 font-semibold">Reason:</label>
             <textarea
@@ -197,11 +195,9 @@ const ApplyLeave = () => {
               onChange={(e) => setReason(e.target.value)}
               className="p-2 border border-gray-300 rounded-lg focus:ring focus:ring-red-300"
               rows="3"
-              placeholder="Enter reason"
             />
           </div>
 
-          {/* Submit Button */}
           <button
             onClick={handleSubmit}
             disabled={loading}
@@ -213,16 +209,7 @@ const ApplyLeave = () => {
           </button>
         </div>
       </div>
-
-      {/* Toast Container */}
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        closeOnClick
-        pauseOnHover
-        draggable
-      />
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

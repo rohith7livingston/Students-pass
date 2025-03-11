@@ -42,7 +42,7 @@ function Login() {
 
         setTimeout(() => {
           navigate(role === "student" ? "/student" : "/admin");
-        }, 2000);
+        }, 3000);
       } else {
         toast.error(result.data.message || "❌ Invalid credentials!", {
           position: "top-right",

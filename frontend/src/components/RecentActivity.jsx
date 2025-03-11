@@ -4,12 +4,24 @@ import axios from "axios";
 const RecentActivity = ({ limit = 5 }) => {
   const [activities, setActivities] = useState([]);
   const [showMore, setShowMore] = useState(false);
-  const regno = localStorage.getItem("regno");
+  const [regno, setRegno] = useState("");
+
+  useEffect(() => {
+    // Fetch user registration number from local storage
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser?.regnoOrEmail) {
+      setRegno(storedUser.regnoOrEmail);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchRecentActivity = async () => {
+      if (!regno) return; // Prevent API call if regno is empty
+
       try {
-        const response = await axios.get(`http://localhost:3000/getLeave/${regno}`);
+        const response = await axios.get(
+          `http://localhost:3000/getLeave/${regno}`
+        );
         console.log("API Response:", response.data);
         setActivities(response.data);
       } catch (error) {
@@ -18,10 +30,12 @@ const RecentActivity = ({ limit = 5 }) => {
     };
 
     fetchRecentActivity();
-  }, []);
+  }, [regno]); // Fetch data when `regno` is updated
 
   // Limit displayed activities based on `showMore` state
-  const displayedActivities = showMore ? activities : activities.slice(0, limit);
+  const displayedActivities = showMore
+    ? activities
+    : activities.slice(0, limit);
 
   return (
     <div className="bg-white rounded-lg shadow-md p-5 w-full max-w-[800px] mx-auto">
@@ -63,7 +77,9 @@ const RecentActivity = ({ limit = 5 }) => {
             </div>
           ))
         ) : (
-          <p className="text-center text-gray-500">No recent activities found.</p>
+          <p className="text-center text-gray-500">
+            No recent activities found.
+          </p>
         )}
       </div>
 
@@ -71,7 +87,7 @@ const RecentActivity = ({ limit = 5 }) => {
       {activities.length > limit && (
         <button
           onClick={() => setShowMore(!showMore)}
-          className="mt-1 px-1 py-1  text-crimson-900 rounded-lg w-full"
+          className="mt-3 px-3 py-2 text-red-600 font-medium rounded-lg w-full hover:bg-red-100 transition-all"
         >
           {showMore ? "Show Less" : "Show More"}
         </button>
