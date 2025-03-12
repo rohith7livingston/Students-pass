@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors"); // Import CORS
-const { registerStudent ,LoginController,applyLeave,getStudentLeaves,getLeavesData,approveLeave,rejectLeave} = require("./controllers/StudentController");
+const { registerStudent ,LoginController,applyLeave,getStudentLeaves,getLeavesData,approveLeave,rejectLeave,getStudentProfileInfo} = require("./controllers/StudentController");
 const { Adminlogin ,getPendingLeaveRequests } = require("./controllers/AdminController.js")
 const app = express();
 
@@ -16,4 +16,5 @@ app.post("/Adminlogin",Adminlogin)
 app.get("/getLetters",getPendingLeaveRequests)
 app.post("/approveLeave/:id",approveLeave)
 app.post("/rejectLeave/:id",rejectLeave)
+app.get("/getstudentinfo/:regno",getStudentProfileInfo);
 module.exports = { app };

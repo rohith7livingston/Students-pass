@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const RecentActivity = ({ limit = 5 }) => {
-  const [activities, setActivities] = useState([]);
+  
   const [showMore, setShowMore] = useState(false);
+  const [activities, setActivities] = useState([]);
   const [regno, setRegno] = useState("");
 
   useEffect(() => {
@@ -11,22 +12,30 @@ const RecentActivity = ({ limit = 5 }) => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser?.regnoOrEmail) {
       setRegno(storedUser.regnoOrEmail);
+      
     }
   }, []);
 
   useEffect(() => {
     const fetchRecentActivity = async () => {
-      if (!regno) return; // Prevent API call if regno is empty
-
+      if (!regno)
+      { return;
+      }
+      else 
+      {
+        
       try {
+        alert(`the register number i got is ${regno}`)
         const response = await axios.get(
           `http://localhost:3000/getLeave/${regno}`
         );
-        console.log("API Response:", response.data);
+        console.log("API Response of logged student:", response.data);
         setActivities(response.data);
       } catch (error) {
         console.error("Error fetching recent activity:", error);
       }
+      } // Prevent API call if regno is empty
+
     };
 
     fetchRecentActivity();

@@ -154,7 +154,27 @@ const applyLeave = async (req, res) => {
 };
 
 
-//getting leaves
+//getting student profile info
+const getStudentProfileInfo = async (req, res) => {
+    try {
+        console.log(req.params.regno);
+        const regno = req.params.regno;  // Use regno from URL params
+        
+        const studentinfo = await studentModel.find({ regno : regno });
+  
+        if (studentinfo.length === 0) {
+            return res.status(404).json({ message: "No student  records found" });
+        }
+        console.log(studentinfo[0]);
+        res.status(200).json(studentinfo[0]);
+    } catch (error) {
+        console.error("Error fetching student info:", error);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+}; 
+
+
+
 //getting leaves
 const getStudentLeaves = async (req, res) => {
     try {
@@ -243,4 +263,4 @@ const rejectLeave = async (req, res) => {
 
 
 // Export all functions properly
-module.exports = { registerStudent,applyLeave,getStudentLeaves,LoginController,getLeavesData,approveLeave,rejectLeave};
+module.exports = { registerStudent,applyLeave,getStudentLeaves,LoginController,getLeavesData,approveLeave,rejectLeave,getStudentProfileInfo};
