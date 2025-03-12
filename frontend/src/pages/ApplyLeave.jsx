@@ -12,7 +12,7 @@ const ApplyLeave = () => {
   const [endDate, setEndDate] = useState("");
   const [subject, setSubject] = useState("");
   const [reason, setReason] = useState("");
-  const [approvedBy, setApprovedBy] = useState("CSE HOD");
+  const [approvedBy, setApprovedBy] = useState("CSEHOD");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate(); // Initialize navigate
@@ -175,7 +175,7 @@ const ApplyLeave = () => {
               value={approvedBy}
               onChange={(e) => setApprovedBy(e.target.value)}
             >
-              <option value="CSE HOD">CSE HOD</option>
+              <option value="CSEHOD">CSE HOD</option>
               <option value="Warden">Warden</option>
               <option value="Principal">Principal</option>
             </select>

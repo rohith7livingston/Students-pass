@@ -28,7 +28,10 @@ function Login() {
 
       console.log(result.data);
 
-      if (result.data === "loginsuccess" || result.data.message === "Login successful") {
+      if (
+        result.data === "loginsuccess" ||
+        result.data.message === "Login successful"
+      ) {
         toast.success("🎉 Login successful!", {
           position: "top-right",
           autoClose: 3000,
@@ -38,7 +41,17 @@ function Login() {
           draggable: true,
         });
 
-        localStorage.setItem("user", JSON.stringify({ regnoOrEmail, role }));
+        if (role === "admin") {
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              email: regnoOrEmail,
+              role: result.data.admin?.role || "admin", // Handle role data properly
+            })
+          );
+        } else {
+          localStorage.setItem("user", JSON.stringify({ regnoOrEmail, role }));
+        }
 
         setTimeout(() => {
           navigate(role === "student" ? "/student" : "/admin");
@@ -59,15 +72,14 @@ function Login() {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent form submission from reloading the page
     getfunc();
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-red-600 to-red-800 font-poppins">
       <div className="bg-white p-10 rounded-2xl shadow-2xl w-[450px] text-center overflow-hidden">
-        <ToastContainer /> {/* Toast Container to show notifications */}
-
+        <ToastContainer /> {/* Toast Container for notifications */}
         <h2 className="text-gray-900 mb-6 text-3xl font-semibold">Login</h2>
 
         {/* Role Selection Tabs */}
@@ -107,20 +119,28 @@ function Login() {
             transition={{ duration: 0.4, ease: "easeInOut" }}
             className="text-left"
           >
-            <label htmlFor="regnoOrEmail" className="block text-gray-700 text-sm font-semibold">
+            <label
+              htmlFor="regnoOrEmail"
+              className="block text-gray-700 text-sm font-semibold"
+            >
               {role === "student" ? "Reg No" : "Email"}:
             </label>
             <input
               value={regnoOrEmail}
               type={role === "student" ? "text" : "email"}
               id="regnoOrEmail"
-              placeholder={`Enter your ${role === "student" ? "register number" : "email"}`}
+              placeholder={`Enter your ${
+                role === "student" ? "register number" : "email"
+              }`}
               onChange={(event) => setRegnoOrEmail(event.target.value)}
               required
               className="w-full p-3 mt-1 mb-4 rounded-lg bg-gray-100 border-2 border-gray-300 text-gray-900 focus:border-red-500 focus:outline-none transition"
             />
 
-            <label htmlFor="password" className="block text-gray-700 text-sm font-semibold">
+            <label
+              htmlFor="password"
+              className="block text-gray-700 text-sm font-semibold"
+            >
               Password:
             </label>
             <input

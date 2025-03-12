@@ -77,9 +77,7 @@ const registerStudent= async(req, res) =>{
  
 const LoginController= async(req, res) =>{
     try {
-        console.log(req);
         const { regno, password} = req.query;
-        console.log(" ",regno," ",password);
 
        // Check if the student with this Email or Regno already exists
         const existingStudent = await studentModel.findOne({ regno  });
@@ -120,7 +118,7 @@ const LoginController= async(req, res) =>{
 // Apply for Leave
 const applyLeave = async (req, res) => {
     try {
-        const { studentId, leaveType, dayType, startDate, endDate, subject, reason } = req.body;
+        const { studentId, leaveType, dayType, startDate, endDate, subject, reason ,approvedBy } = req.body;
 
         // Check if student exists
         const student = await studentModel.findById(studentId);
@@ -140,6 +138,7 @@ const applyLeave = async (req, res) => {
             dayType,
             startDate,
             endDate,
+            approvedBy,
             subject,
             reason
         });
@@ -166,7 +165,6 @@ const getStudentLeaves = async (req, res) => {
         if (leaveLetters.length === 0) {
             return res.status(404).json({ message: "No leave records found" });
         }
-        console.log(leaveLetters);
         res.status(200).json(leaveLetters);
     } catch (error) {
         console.error("Error fetching leave records:", error);

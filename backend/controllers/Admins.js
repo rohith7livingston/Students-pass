@@ -5,28 +5,28 @@ const adminDocuments = [
       name: "Admin1",
       email: "admin@gmail.com",
       password: "password123",
-      leavesEvaluated: ["Sick Leave", "Casual Leave"],
+      role: "CSEHOD",
     },
     {
       id: 2,
       name: "Pricipal",
       email: "ishmael.smith@example.com",
       password: "password456",
-      leavesEvaluated: ["Casual Leave", "Maternity Leave"],
+      role: "Principal",
     },
     {
       id: 3,
       name: "warden",
       email: "charlie.brown@example.com",
       password: "password789",
-      leavesEvaluated: ["Sick Leave", "Study Leave"],
+      role:"Warden",
     },
     {
       id: 4,
       name: "livingston",
       email: "dana.williams@example.com",
       password: "password987",
-      leavesEvaluated: ["Sick Leave", "Maternity Leave", "Casual Leave"],
+      role: "Pavan",
     }
   ];
 
