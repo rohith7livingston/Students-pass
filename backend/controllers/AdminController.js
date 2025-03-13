@@ -3,7 +3,7 @@
 const { adminDocuments } = require("./Admins.js"); // Mock database
 const { LetterModel } = require("./../Models/LetterModel.js"); // Importing the leave model
 
-
+// Admin Login
 // Admin Login
 const Adminlogin = async (req, res) => {
   try {
@@ -15,37 +15,48 @@ const Adminlogin = async (req, res) => {
       return res.status(404).json({ message: "Admin not found" });
     }
 
-    // Password verification 
+    // Password verification
     if (password === admin.password) {
-      return res.status(200).json({ message: "Login successful", admin: { name: admin.name, email: admin.email } });
+      return res.status(200).json({
+        message: "Login successful",
+        admin: {
+          name: admin.name,
+          email: admin.email,
+          role: admin.role, // Include role in response
+        },
+      });
     } else {
       return res.status(401).json({ message: "Invalid password" });
     }
-
   } catch (error) {
     console.error("Error logging in admin:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
-
-
-
-
-
-
-
-
 // Fetch Pending Leave Requests
+
+
+
+
+
+
 const getPendingLeaveRequests = async (req, res) => {
   try {
-    const pendingRequests = await LetterModel.find({ status: "Pending" });
+    const role = req.query.role; // Get admin role from query params
 
-    if (pendingRequests.length === 0) {
-      return res.status(404).json({ message: "No pending leave requests" });
+    if (!role) {
+      return res.status(401).json({ message: "Unauthorized. Please log in." });
     }
 
-    // Count occurrences of each leaveType
+    const pendingRequests = await LetterModel.find({
+      status: "Pending",
+      approvedBy: role, // Filter based on the admin's role
+    });
+
+    if (pendingRequests.length === 0) {
+      return res.status(404).json({ message: "No leaves found" });
+    }
+
     const leaveTypeCounts = {
       Permission: 0,
       "Sick Leave": 0,
@@ -58,17 +69,13 @@ const getPendingLeaveRequests = async (req, res) => {
       }
     });
 
-    // Add the counts as a subdocument in the response
-    res.status(200).json({
-      pendingRequests,
-      leaveTypeCounts,
-    });
-
+    res.status(200).json({ pendingRequests, leaveTypeCounts });
   } catch (error) {
     console.error("Error fetching pending leave requests:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 
 
@@ -84,7 +91,7 @@ const approveLeaveRequest = async (req, res) => {
 
     // Find the leave request by ID
     const leaveRequest = await LetterModel.findById(leaveId);
-    
+
     if (!leaveRequest) {
       return res.status(404).json({ message: "Leave request not found" });
     }
@@ -95,15 +102,14 @@ const approveLeaveRequest = async (req, res) => {
 
     await leaveRequest.save();
 
-    res.status(200).json({ message: "Leave request approved successfully", leaveRequest });
+    res
+      .status(200)
+      .json({ message: "Leave request approved successfully", leaveRequest });
   } catch (error) {
     console.error("Error approving leave request:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
-
-
 
 // Reject Leave Request
 const rejectLeaveRequest = async (req, res) => {
@@ -112,7 +118,7 @@ const rejectLeaveRequest = async (req, res) => {
 
     // Find the leave request by ID
     const leaveRequest = await LetterModel.findById(leaveId);
-    
+
     if (!leaveRequest) {
       return res.status(404).json({ message: "Leave request not found" });
     }
@@ -124,11 +130,13 @@ const rejectLeaveRequest = async (req, res) => {
 
     await leaveRequest.save();
 
-    res.status(200).json({ message: "Leave request rejected successfully", leaveRequest });
+    res
+      .status(200)
+      .json({ message: "Leave request rejected successfully", leaveRequest });
   } catch (error) {
     console.error("Error rejecting leave request:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
-module.exports = { Adminlogin, getPendingLeaveRequests};
+module.exports = { Adminlogin, getPendingLeaveRequests };

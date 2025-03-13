@@ -1,57 +1,66 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import StudentRequestActivity from "../components/StudentRequestActivity";
 import axios from "axios";
 
-
-
-
-
-
-
 const COLORS = ["#87CEEB", "#FFBB28", "#4682B4", "#191970", "#6A5ACD"];
 
 const Admin = () => {
-  const [user] = useState({ name: "John Doe" }); // Replace with actual user data
+  const [user, setUser] = useState({ name: "John Doe", role: "" }); // Default user state
   const [data, setData] = useState([]); // State to store fetched leave data
-  // const [loading, setLoading] = useState(true); // Loading state
 
   // Function to fetch data from backend
-  const fetchData = async () => {
+  const fetchData = async (adminRole) => {
     try {
-      const response = await axios.get("http://localhost:3000/getLetters");
+      const response = await axios.get(`http://localhost:3000/getLetters?role=${adminRole}`);
       
-      
-  
-      console.log("fetched data is",response.data.leaveTypeCounts);
+      console.log("Fetched data:", response.data.leaveTypeCounts);
+
+      // Safe check to avoid undefined values
+      const leaveTypeCounts = response.data?.leaveTypeCounts || {};
+
       // Convert response object to array format for PieChart
-      const formattedData = Object.keys(response.data.leaveTypeCounts).map((key) => ({
+      const formattedData = Object.keys(leaveTypeCounts).map((key) => ({
         name: key,
-        value: response.data.leaveTypeCounts[key],
+        value: leaveTypeCounts[key],
       }));
 
       setData(formattedData);
-      // setLoading(false);
     } catch (error) {
-      console.error("Error in getting the data", error);
+      console.error(error);
       alert(error.response?.data?.message || "Server error");
-      // setLoading(false);
     }
   };
 
-  // Fetch data when component mounts (on page load)
+  // Fetch user role from local storage and fetch data
   useEffect(() => {
-    fetchData();
+    const storedUser = localStorage.getItem("user"); // Fetch from local storage
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser); // Parse JSON data
+      if (parsedUser.role) {
+        setUser({ name: parsedUser.name, role: parsedUser.role }); // Update state with role
+        fetchData(parsedUser.role); // Fetch data using role
+      } else {
+        alert("User role not found. Please log in.");
+      }
+    } else {
+      alert("You need to log in.");
+    }
   }, []);
+
+  // Dynamically calculate leave counts
+  const approved = data.find((item) => item.name === "Approved")?.value || 0;
+  const pending = data.find((item) => item.name === "Pending")?.value || 0;
+  const rejected = data.find((item) => item.name === "Rejected")?.value || 0;
 
   return (
     <div className="bg-red-100 min-h-screen">
       <Navbar />
-      
+
       <div className="flex flex-col md:flex-row">
         {/* Sidebar */}
-        <div className="w-full md:w-1/3 p-6  shadow-md">
+        <div className="w-full md:w-1/3 p-6 shadow-md">
           <div className="text-center mb-4">
             <h1 className="text-xl font-bold text-red-600">SASI AUTONOMOUS</h1>
           </div>
@@ -61,7 +70,7 @@ const Admin = () => {
               cx="50%"
               cy="50%"
               innerRadius={50}
-              outerRadius={100} 
+              outerRadius={100}
               fill="#8884d8"
               dataKey="value"
               label
@@ -69,16 +78,25 @@ const Admin = () => {
               animationDuration={1500} // Smooth animation over 1.5 seconds
             >
               {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
               ))}
             </Pie>
             <Tooltip />
             <Legend />
           </PieChart>
           <div className="mt-4 text-lg">
-            <p className="font-bold">Approved: <span className="text-green-500">29</span></p>
-            <p className="font-bold">Pending: <span className="text-yellow-500">12</span></p>
-            <p className="font-bold">Rejected: <span className="text-red-500">7</span></p>
+            <p className="font-bold">
+              Approved: <span className="text-green-500">{approved}</span>
+            </p>
+            <p className="font-bold">
+              Pending: <span className="text-yellow-500">{pending}</span>
+            </p>
+            <p className="font-bold">
+              Rejected: <span className="text-red-500">{rejected}</span>
+            </p>
           </div>
         </div>
 
@@ -95,8 +113,8 @@ const Admin = () => {
           </div>
 
           {/* Student Requests */}
-            <StudentRequestActivity/>
-          </div>
+          <StudentRequestActivity />
+        </div>
       </div>
     </div>
   );

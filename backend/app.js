@@ -11,7 +11,7 @@ app.post("/register", registerStudent);
 app.post("/applyleave", applyLeave);
 app.get("/getLeave/:regno", getStudentLeaves);
 app.get("/login",LoginController); // Corrected
-app.get("/getleaveSdata",getLeavesData);
+app.get("/getleavesdata",getLeavesData);
 app.post("/Adminlogin",Adminlogin)
 app.get("/getLetters",getPendingLeaveRequests)
 app.post("/approveLeave/:id",approveLeave)
