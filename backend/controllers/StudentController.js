@@ -1,7 +1,6 @@
 const {studentModel} = require("../Models/StudentModels");
 const {LetterModel} = require("../Models/LetterModel");
-
-
+const sendMail = require("./../emailService")
 
 
 
@@ -198,6 +197,11 @@ const approveLeave = async (req, res) => {
         });
 
         //sending mail
+        await sendMail(
+            updatedLeave.mailId, 
+            "Leave Approved ✅", 
+            `Hey there !! Hope you are doing Good, your leave request from ${updatedLeave.startDate} to ${updatedLeave.endDate} has been approved by ${approver}.`
+        );
     } catch (error) {
         console.error("Error approving leave:", error);
         res.status(500).json({ message: "Server error", error: error.message });
@@ -235,10 +239,16 @@ const rejectLeave = async (req, res) => {
         });
 
         //sending mail
+        await sendMail(
+            updatedLeave.mailId,
+            "Leave Rejected ❌",
+            `Hey there, your leave request from ${updatedLeave.startDate} to ${updatedLeave.endDate} has been rejected by ${rejectedBy || "Admin"}. Reason: ${rejectionReason}`
+        );
     } catch (error) {
         console.error("Error rejecting leave:", error);
         res.status(500).json({ message: "Server error", error: error.message });
     }
+    
 };
 
 

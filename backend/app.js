@@ -7,6 +7,7 @@ const app = express();
 app.use(cors()); // 
 app.use(express.json());
 
+
 app.post("/register", registerStudent);
 app.post("/applyleave", applyLeave);
 app.get("/getLeave/:regno", getStudentLeaves);
