@@ -3,6 +3,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import Profile from "../components/Profile";
 import Register from "../pages/Register";
 
+import Dashboard2 from "../pages/Dashboard2";
+
 import StudentHome from "../pages/StudentHome";
 
 import Login from "../pages/Login";
@@ -29,6 +31,7 @@ function App() {
           <Route path="/apply" element={<ApplyLeave />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/profile" element={<Profile/>}/>
+          <Route path="/" element={<Dashboard2/>}/>
         </Routes>
       </BrowserRouter>
     </main>

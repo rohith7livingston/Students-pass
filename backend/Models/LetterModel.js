@@ -8,7 +8,7 @@ const LetterSchema = new mongoose.Schema({
     },
     leaveType: { 
         type: String, 
-        enum: ["Leave", "Sick Leave", "Permission"], 
+        enum: ["Leave", "Sick Leave", "Permission","Outing"], 
         required: true 
     },
     dayType: { 
