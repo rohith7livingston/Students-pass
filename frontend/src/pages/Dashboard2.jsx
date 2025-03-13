@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MentalHealthAssessment from "./Register";
-import { motion } from "framer-motion";
+import { motion,AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 
 const words = ["connect", "grow", "communicate"];
@@ -15,18 +15,23 @@ const Dashboard2 = () => {
 
     return () => clearInterval(interval);
   }, []);
-  
+
   return (
     <div className="bg-red-50 min-h-screen">
       {/* Navbar */}
-      <nav className="flex justify-between items-center px-8 py-4 bg-white shadow-md">
-        <span className="text-lg font-bold">logo</span>
+      <nav className="flex justify-between items-center px-8 py-4 bg-red-700 shadow-md">
+        <img src="sasi.png" alt="Logo" className="h-14 w-auto" />
+
         <ul className="flex space-x-6">
-          <li className="text-gray-700 cursor-pointer">Home</li>
-          <li className="text-gray-700 cursor-pointer">About</li>
-          <li className="text-gray-700 cursor-pointer">Features</li>
-          <Link to="/login"><li className="text-red-500 font-bold cursor-pointer">Login</li></Link>
-          <li className="text-black font-bold cursor-pointer" onClick={() => setShowModal(true)}>Register</li>
+          <li className="text-white cursor-pointer">Home</li>
+          <li className="text-white cursor-pointer">About</li>
+          <li className="text-white cursor-pointer">Features</li>
+          <Link to="/login">
+            <li className="text-white cursor-pointer">Login</li>
+          </Link>
+          <li className="text-white cursor-pointer" onClick={() => setShowModal(true)}>
+            Register
+          </li>
           <MentalHealthAssessment show={showModal} handleClose={() => setShowModal(false)} />
         </ul>
       </nav>
@@ -34,22 +39,24 @@ const Dashboard2 = () => {
       {/* Main Content */}
       <div className="flex flex-col items-start px-16 py-16">
         <h1 className="text-5xl font-light leading-tight">WELCOME</h1>
-        <p className="text-3xl mt-2 whitespace-nowrap">
-          let us{" "}
-          <span className="inline-block w-[140px] text-center relative">
-            <motion.span
-              key={index}
-              className="font-bold text-red-500 absolute left-0 right-0"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.5 }}
-            >
-              {words[index]}
-            </motion.span>
-          </span>{" "}
-          together
-        </p>
+        <p className="text-3xl mt-2 whitespace-nowrap font-semibold">
+      Let us
+      <span className="inline-block w-[200px] text-center relative overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={words[index]}
+            className="font-bold text-red-500 inline-block"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+          >
+            {words[index]}
+          </motion.span>
+        </AnimatePresence>
+      </span>
+      together
+    </p>
         <h2 className="text-2xl text-red-500 font-bold mt-4">Values we live</h2>
 
            {/* Cards Section */}
