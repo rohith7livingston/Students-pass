@@ -122,6 +122,7 @@ const ApplyLeave = () => {
               <option value="Sick Leave">Sick Leave</option>
               <option value="Leave">Leave</option>
               <option value="Permission">Permission</option>
+              <option value="Outing">Outing</option>
             </select>
           </div>
 

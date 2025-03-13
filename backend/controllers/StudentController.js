@@ -198,6 +198,8 @@ const approveLeave = async (req, res) => {
             message: "Leave request approved successfully",
             leave: updatedLeave
         });
+
+        //sending mail
     } catch (error) {
         console.error("Error approving leave:", error);
         res.status(500).json({ message: "Server error", error: error.message });
@@ -233,6 +235,8 @@ const rejectLeave = async (req, res) => {
             message: "Leave request rejected successfully",
             leave: updatedLeave
         });
+
+        //sending mail
     } catch (error) {
         console.error("Error rejecting leave:", error);
         res.status(500).json({ message: "Server error", error: error.message });
