@@ -6,6 +6,11 @@ const LetterSchema = new mongoose.Schema({
         ref: "Student", // Reference to Student Model
         required: true 
     },
+    mailId :
+    {
+        type:String,
+        required:true
+    },
     leaveType: { 
         type: String, 
         enum: ["Leave", "Sick Leave", "Permission","Outing"], 

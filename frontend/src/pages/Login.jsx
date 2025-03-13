@@ -12,6 +12,12 @@ function Login() {
 
   const navigate = useNavigate();
 
+
+
+
+
+
+
   const getfunc = async () => {
     try {
       let result;
@@ -25,11 +31,11 @@ function Login() {
           password,
         });
       }
-
+  
       console.log(result.data);
-
+  
       if (
-        result.data === "loginsuccess" ||
+        result.data.status === "loginsuccess" ||
         result.data.message === "Login successful"
       ) {
         toast.success("🎉 Login successful!", {
@@ -40,19 +46,27 @@ function Login() {
           pauseOnHover: true,
           draggable: true,
         });
-
+  
+        // Store user details correctly
         if (role === "admin") {
           localStorage.setItem(
             "user",
             JSON.stringify({
               email: regnoOrEmail,
-              role: result.data.admin?.role || "admin", // Handle role data properly
+              role: result.data.admin?.role || "admin",
             })
           );
         } else {
-          localStorage.setItem("user", JSON.stringify({ regnoOrEmail, role }));
+          localStorage.setItem(
+            "user",
+            JSON.stringify({
+              regno: regnoOrEmail, // Store the correct regno
+              email: result.data.email, // Store the correct email
+              role: "student",
+            })
+          );
         }
-
+  
         setTimeout(() => {
           navigate(role === "student" ? "/student" : "/admin");
         }, 3000);
@@ -70,6 +84,15 @@ function Login() {
       });
     }
   };
+  
+
+
+
+
+
+
+
+
 
   const handleSubmit = (event) => {
     event.preventDefault(); // Prevent form submission from reloading the page

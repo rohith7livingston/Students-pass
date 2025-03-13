@@ -9,8 +9,8 @@ const RecentActivity = ({ limit = 5 }) => {
   useEffect(() => {
     // Fetch user registration number from local storage
     const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser?.regnoOrEmail) {
-      setRegno(storedUser.regnoOrEmail);
+    if (storedUser?.regno) {
+      setRegno(storedUser.regno);
     }
   }, []);
 

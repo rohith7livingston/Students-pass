@@ -75,32 +75,29 @@ const registerStudent= async(req, res) =>{
 
 //login
  
-const LoginController= async(req, res) =>{
+const LoginController = async (req, res) => {
     try {
-        const { regno, password} = req.query;
+        const { regno, password } = req.query;
 
-       // Check if the student with this Email or Regno already exists
-        const existingStudent = await studentModel.findOne({ regno  });
-        if (! existingStudent) 
-        {
-           console.log("no such account is found");
-           res.json("noaccount");
+        // Check if the student exists
+        const existingStudent = await studentModel.findOne({ regno });
 
+        if (!existingStudent) {
+            console.log("No such account is found");
+            return res.json({ status: "noaccount" });
         }
-    else
-    {
-        if(existingStudent.password===password)
-        {
-            
-            res.json("loginsuccess");
-        }
-        else
-        {
-            res.json("passwordwrong");
-        }
-    } 
 
-     } catch (error) {
+        // Check password
+        if (existingStudent.password === password) {
+            return res.json({
+                status: "loginsuccess",
+                email: existingStudent.email, // Sending email along with success response
+            });
+        } else {
+            return res.json({ status: "passwordwrong" });
+        }
+
+    } catch (error) {
         console.error("Error logging student:", error);
         res.status(500).json({ message: "Server error", error: error.message });
     }
@@ -118,7 +115,7 @@ const LoginController= async(req, res) =>{
 // Apply for Leave
 const applyLeave = async (req, res) => {
     try {
-        const { studentId, leaveType, dayType, startDate, endDate, subject, reason ,approvedBy } = req.body;
+        const { studentId, mailId, leaveType, dayType, startDate, endDate, subject, reason ,approvedBy } = req.body;
 
         // Check if student exists
         const student = await studentModel.findById(studentId);
@@ -134,6 +131,7 @@ const applyLeave = async (req, res) => {
         // Create a new leave request
         const newLeave = new LetterModel({
             studentId,
+            mailId,
             leaveType,
             dayType,
             startDate,

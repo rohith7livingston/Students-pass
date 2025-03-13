@@ -18,7 +18,8 @@ const ApplyLeave = () => {
   const navigate = useNavigate(); // Initialize navigate
 
   const user = JSON.parse(localStorage.getItem("user"));
-  const regno = user?.regnoOrEmail;
+  const regno = user?.regno;
+  const email = user.email;
 
   if (!regno) {
     toast.error("User not logged in. Please log in again.");
@@ -40,6 +41,7 @@ const ApplyLeave = () => {
 
     const requestData = {
       studentId: regno,
+      mailId : email,
       leaveType,
       dayType,
       startDate,
