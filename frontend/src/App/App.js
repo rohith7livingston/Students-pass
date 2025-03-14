@@ -14,8 +14,6 @@ import ApplyLeave from "../pages/ApplyLeave";
 
 import Footer from "../components/Footer";
 
-
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Admin from "./../pages/Admin";
@@ -25,14 +23,13 @@ function App() {
     <main id="app">
       <BrowserRouter>
         <Routes>
-        
           <Route path="/Student" element={<StudentHome />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/apply" element={<ApplyLeave />} />
           <Route path="/admin" element={<Admin />} />
-         
           <Route path="/" element={<Dashboard2/>}/>
+          
         </Routes>
        
       </BrowserRouter>
