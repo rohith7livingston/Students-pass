@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate,Link} from "react-router-dom"; // Import useNavigate
 import { motion } from "framer-motion";
 import axios from "axios";
 import "./../stylesheet/ApplyLeave.css";
@@ -82,35 +82,37 @@ const ApplyLeave = () => {
       <div className="w-full max-w-2xl p-6 bg-white rounded-xl shadow-md border border-dashed border-gray-500">
         {/* Title */}
         <div className="flex items-center gap-3 mb-4">
-          <h1 className="text-2xl font-bold text-gray-800">Apply for leave</h1>
-          <div className="flex space-x-1 dot-animation">
-            <motion.div
-              className="w-2.5 h-2.5 bg-red-500 rounded-full"
-              animate={{ scale: [0, 1, 0] }}
-              transition={{ repeat: Infinity, duration: 1, ease: "easeInOut" }}
-            />
-            <motion.div
-              className="w-2.5 h-2.5 bg-yellow-500 rounded-full"
-              animate={{ scale: [0, 1, 0] }}
-              transition={{
-                repeat: Infinity,
-                duration: 1,
-                ease: "easeInOut",
-                delay: 0.2,
-              }}
-            />
-            <motion.div
-              className="w-2.5 h-2.5 bg-green-500 rounded-full"
-              animate={{ scale: [0, 1, 0] }}
-              transition={{
-                repeat: Infinity,
-                duration: 1,
-                ease: "easeInOut",
-                delay: 0.4,
-              }}
-            />
-          </div>
-        </div>
+  <h1 className="text-2xl font-bold text-gray-800">Apply for leave</h1>
+  <div className="flex space-x-1 dot-animation">
+    <motion.div
+      className="w-2.5 h-2.5 bg-red-500 rounded-full"
+      animate={{ scale: [0, 1, 0] }}
+      transition={{ repeat: Infinity, duration: 1, ease: "easeInOut" }}
+    />
+    <motion.div
+      className="w-2.5 h-2.5 bg-yellow-500 rounded-full"
+      animate={{ scale: [0, 1, 0] }}
+      transition={{
+        repeat: Infinity,
+        duration: 1,
+        ease: "easeInOut",
+        delay: 0.2,
+      }}
+    />
+    <motion.div
+      className="w-2.5 h-2.5 bg-green-500 rounded-full"
+      animate={{ scale: [0, 1, 0] }}
+      transition={{
+        repeat: Infinity,
+        duration: 1,
+        ease: "easeInOut",
+        delay: 0.4,
+      }}
+    />
+  </div>
+  <Link to="/student" className="bg-red-600 text-white px-4 py-2 rounded ml-auto"><button >Back</button></Link>
+</div>
+
 
         {/* Form */}
         <div className="space-y-4">

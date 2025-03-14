@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import RecentActivity from "../components/RecentActivity";
-import Footer from "../components/Footer";
+
 const StudentHome = () => {
   return (
     <div className="relative min-h-screen bg-pink-50 flex flex-col">
@@ -40,7 +40,7 @@ const StudentHome = () => {
       </div>
 
       {/* 🔥 Footer Section */}
-      <Footer/>
+      
     </div>
   );
 };

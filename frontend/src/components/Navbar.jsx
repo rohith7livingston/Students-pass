@@ -1,12 +1,50 @@
 import { useState, useRef, useEffect } from "react";
 import { FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // React Router
+import { Link, useNavigate } from "react-router-dom"; // React Router
+import axios from "axios";
+import { X } from "lucide-react"; 
 
 function Navbar() {
+  const [isView, setIsView] = useState(false);
+  const [activities, setActivities] = useState([]);
+  const [regno, setRegno] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const navRef = useRef();
   const navigate = useNavigate(); // React Router navigation
+
+  useEffect(() => {
+    // Fetch user registration number from local storage
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser?.regno) {
+      setRegno(storedUser.regno);
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchRecentActivity = async () => {
+      if (!regno)
+      { return;
+      }
+      else 
+      {
+        
+      try {
+        alert(`the register number i got is ${regno}`)
+        const response = await axios.get(
+          `http://localhost:3000/getstudentinfo/${regno}`
+        );
+        console.log("API Response of logged student:", response.data);
+        setActivities(response.data);
+      } catch (error) {
+        console.error("Error fetching recent activity:", error);
+      }
+      } // Prevent API call if regno is empty
+
+    };
+
+    fetchRecentActivity();
+  }, [regno]);
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
@@ -15,7 +53,7 @@ function Navbar() {
   const handleLogout = () => {
     setLoggingOut(true);
     setTimeout(() => {
-      navigate("/login"); // Redirect to /login after animation
+      navigate("/"); // Redirect to /login after animation
     }, 2000);
   };
 
@@ -38,15 +76,16 @@ function Navbar() {
 
       {/* Desktop Navigation */}
       <nav className="hidden md:flex gap-6 items-center">
-        {["Home", "Notifications", "About Me"].map((item) => (
-          <a
-            key={item}
-            href="/#"
-            className="relative after:block after:h-0.5 after:w-full after:bg-white after:scale-0 hover:after:scale-100 after:transition-transform after:duration-700"
-          >
-            {item}
-          </a>
-        ))}
+        
+        <Link  onClick={() => setIsView(true)}>Profile</Link>
+
+        
+
+        
+              
+           
+
+
 
         {/* Logout Button (Desktop) - Transparent */}
         <button
@@ -57,6 +96,31 @@ function Navbar() {
           Logout
         </button>
       </nav>
+      {isView && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                  <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md relative">
+                    {/* Close Button (X) on top right */}
+                    <button
+                      className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 transition duration-200"
+                      onClick={() => setIsView(false)}
+                    >
+                      <X size={24} />
+                    </button>
+        
+                    <h2 className="text-2xl font-bold mb-4 text-center text-white-800">
+                      Profile Details
+                    </h2>
+                    <div className="border-t border-gray-300 my-4"></div>
+        
+                    <div className="space-y-3">
+                      <ProfileDetail label="Name" value={activities.fullname} />
+                      <ProfileDetail label="Reg No" value={activities.regno} />
+                      <ProfileDetail label="Email" value={activities.email} />
+                      <ProfileDetail label="Department" value={activities.department} />
+                    </div>
+                  </div>
+                </div>
+              )}
 
       {/* Mobile Navigation Button */}
       <button className="md:hidden text-2xl" onClick={toggleNavbar}>
@@ -76,11 +140,8 @@ function Navbar() {
         </button>
 
         {/* Mobile Menu Links */}
-        {["Home", "Notifications", "Profile"].map((item) => (
-          <a key={item} href="/#" className="text-xl py-3" onClick={toggleNavbar}>
-            {item}
-          </a>
-        ))}
+        <Link to="/">Home</Link>
+        <Link  onClick={() => setIsView(true)}>Profile</Link>
 
         {/* Logout Button (Mobile) - Transparent */}
         <button
@@ -101,5 +162,16 @@ function Navbar() {
     </header>
   );
 }
+
+
+const ProfileDetail = ({ label, value }) => {
+  return (
+    <div className="flex justify-between items-center bg-gray-100 p-3 rounded-lg">
+      <span className="font-medium text-gray-700">{label}:</span>
+      <span className="text-gray-900 font-semibold">{value || "N/A"}</span>
+    </div>
+  );
+};
+
 
 export default Navbar;

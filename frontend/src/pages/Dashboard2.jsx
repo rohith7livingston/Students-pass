@@ -3,7 +3,7 @@ import MentalHealthAssessment from "./Register";
 import { motion,AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 
-const words = ["connect", "grow", "communicate"];
+const words = ["Connect", "Grow", "Build"];
 
 const Dashboard2 = () => {
   const [index, setIndex] = useState(0);
@@ -39,9 +39,9 @@ const Dashboard2 = () => {
       {/* Main Content */}
       <div className="flex flex-col items-start px-16 py-16">
         <h1 className="text-5xl font-light leading-tight">WELCOME</h1>
-        <p className="text-3xl mt-2 whitespace-nowrap font-semibold">
+        <p className="text-5xl mt-2 whitespace-nowrap font-semibold">
       Let us
-      <span className="inline-block w-[200px] text-center relative overflow-hidden">
+      <span className="inline-block w-[190px] text-center relative overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.span
             key={words[index]}
@@ -49,7 +49,7 @@ const Dashboard2 = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.2 }}
           >
             {words[index]}
           </motion.span>
@@ -57,7 +57,7 @@ const Dashboard2 = () => {
       </span>
       together
     </p>
-        <h2 className="text-2xl text-red-500 font-bold mt-4">Values we live</h2>
+        <h2 className="text-3xl text-red-500 font-bold font-serif mt-8">Values we live</h2>
 
            {/* Cards Section */}
         <div className="flex space-x-20 mt-28">
@@ -68,7 +68,7 @@ const Dashboard2 = () => {
           ].map((card, index) => (
             <div
               key={index}
-              className="bg-white p-6 rounded-lg shadow-lg w-52 transition-all duration-500 ease-in-out 
+              className="bg-white p-6 rounded-lg shadow-xl w-52 shadow-gray-300 transition-all duration-500 ease-in-out 
   hover:shadow-red-500 hover:shadow-xl hover:animate-shake"
             >
               <div className="flex items-center space-x-3">
