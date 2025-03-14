@@ -4,48 +4,53 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import StudentRequestActivity from "../components/StudentRequestActivity";
 import axios from "axios";
 
+// Toastify imports
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const COLORS = ["#87CEEB", "#FFBB28", "#4682B4", "#191970", "#6A5ACD"];
 
 const Admin = () => {
-  const [user, setUser] = useState({ name: "John Doe", role: "" }); // Default user state
-  const [data, setData] = useState([]); // State to store fetched leave data
+  const [user, setUser] = useState({ name: "John Doe", role: "" });
+  const [data, setData] = useState([]);
 
   // Function to fetch data from backend
   const fetchData = async (adminRole) => {
     try {
       const response = await axios.get(`http://localhost:3000/getLetters?role=${adminRole}`);
-      
+
       console.log("Fetched data:", response.data.leaveTypeCounts);
 
-      // Safe check to avoid undefined values
       const leaveTypeCounts = response.data?.leaveTypeCounts || {};
 
-      // Convert response object to array format for PieChart
       const formattedData = Object.keys(leaveTypeCounts).map((key) => ({
         name: key,
         value: leaveTypeCounts[key],
       }));
 
       setData(formattedData);
+
+      toast.success("Data fetched successfully ✅", { autoClose: 2000 });
     } catch (error) {
       console.error(error);
-      alert(error.response?.data?.message || "Server error");
+      toast.error(error.response?.data?.message || "Server error ❌", { autoClose: 3000 });
     }
   };
 
   // Fetch user role from local storage and fetch data
   useEffect(() => {
-    const storedUser = localStorage.getItem("user"); // Fetch from local storage
+    const storedUser = localStorage.getItem("user");
+
     if (storedUser) {
-      const parsedUser = JSON.parse(storedUser); // Parse JSON data
+      const parsedUser = JSON.parse(storedUser);
       if (parsedUser.role) {
-        setUser({ name: parsedUser.name, role: parsedUser.role }); // Update state with role
-        fetchData(parsedUser.role); // Fetch data using role
+        setUser({ name: parsedUser.name, role: parsedUser.role });
+        fetchData(parsedUser.role);
       } else {
-        alert("User role not found. Please log in.");
+        toast.warn("User role not found. Please log in.", { autoClose: 3000 });
       }
     } else {
-      alert("You need to log in.");
+      toast.warn("You need to log in.", { autoClose: 3000 });
     }
   }, []);
 
@@ -56,6 +61,18 @@ const Admin = () => {
 
   return (
     <div className="bg-red-100 min-h-screen">
+      {/* ToastContainer renders notifications */}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
       <Navbar />
 
       <div className="flex flex-col md:flex-row">
@@ -64,6 +81,7 @@ const Admin = () => {
           <div className="text-center mb-4">
             <h1 className="text-xl font-bold text-red-600">SASI AUTONOMOUS</h1>
           </div>
+
           <PieChart width={300} height={300}>
             <Pie
               data={data}
@@ -74,8 +92,8 @@ const Admin = () => {
               fill="#8884d8"
               dataKey="value"
               label
-              isAnimationActive={true} // Enable animation
-              animationDuration={1500} // Smooth animation over 1.5 seconds
+              isAnimationActive={true}
+              animationDuration={1500}
             >
               {data.map((entry, index) => (
                 <Cell
@@ -87,6 +105,7 @@ const Admin = () => {
             <Tooltip />
             <Legend />
           </PieChart>
+
           <div className="mt-4 text-lg">
             <p className="font-bold">
               Approved: <span className="text-green-500">{approved}</span>
@@ -106,6 +125,7 @@ const Admin = () => {
             <h2 className="text-2xl font-bold">
               Welcome <span className="text-red-500">{user.name}</span>
             </h2>
+
             <div className="flex gap-4">
               <button className="bg-white p-2 rounded-full shadow">✉️</button>
               <button className="bg-white p-2 rounded-full shadow">👤</button>

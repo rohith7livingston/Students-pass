@@ -24,7 +24,6 @@ const RecentActivity = ({ limit = 5 }) => {
       {
         
       try {
-        alert(`the register number i got is ${regno}`)
         const response = await axios.get(
           `http://localhost:3000/getLeave/${regno}`
         );

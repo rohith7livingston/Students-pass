@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+
 
 const Register = ({ show, handleClose }) => {
+  const navigate = useNavigate();
   const [showQuestions, setShowQuestions] = useState(false);
   const [step, setStep] = useState(1);
   const [showSubmit, setShowSubmit] = useState(false);
@@ -92,6 +95,7 @@ const Register = ({ show, handleClose }) => {
         toast.success("Registration successful!");
         setTimeout(() => {
           handleClose();
+          navigate("/login")
         }, 2500);
       } else {
         toast.error("Problem in registration. Contact support.");

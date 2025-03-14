@@ -1,13 +1,31 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast ,ToastContainer } from "react-toastify"; // Import toast
 import Navbar from "../components/Navbar";
 import RecentActivity from "../components/RecentActivity";
 import Footer from "../components/Footer";
+
 const StudentHome = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+
+    if (!user) {
+      toast.warn("Please login to continue!", {
+        autoClose: 3000,
+      });
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+    }
+  }, [navigate]);
+
   return (
     <div className="relative min-h-screen bg-pink-50 flex flex-col">
       <Navbar />
-
+    
       {/* Responsive Background Huge Text */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-0 pointer-events-none">
         <h1 className="text-6xl md:text-[10rem] lg:text-[12rem] font-extrabold text-gray-300 opacity-10 md:opacity-20">
@@ -38,9 +56,9 @@ const StudentHome = () => {
           <RecentActivity />
         </div>
       </div>
-
+      <ToastContainer position="top-right" autoClose={3000} />
       {/* 🔥 Footer Section */}
-      <Footer/>
+      <Footer />
     </div>
   );
 };

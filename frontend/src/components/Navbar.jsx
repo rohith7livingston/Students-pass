@@ -38,7 +38,7 @@ function Navbar() {
 
       {/* Desktop Navigation */}
       <nav className="hidden md:flex gap-6 items-center">
-        {["Home", "Notifications", "About Me"].map((item) => (
+        {["Home", "Notices", "About Me"].map((item) => (
           <a
             key={item}
             href="/#"
@@ -76,7 +76,7 @@ function Navbar() {
         </button>
 
         {/* Mobile Menu Links */}
-        {["Home", "Notifications", "Profile"].map((item) => (
+        {["Home", "Notices", "Profile"].map((item) => (
           <a key={item} href="/#" className="text-xl py-3" onClick={toggleNavbar}>
             {item}
           </a>
