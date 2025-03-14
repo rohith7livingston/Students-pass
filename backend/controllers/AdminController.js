@@ -48,14 +48,28 @@ const getPendingLeaveRequests = async (req, res) => {
       return res.status(401).json({ message: "Unauthorized. Please log in." });
     }
 
+    // Fetch only pending leave requests for this admin
     const pendingRequests = await LetterModel.find({
       status: "Pending",
-      approvedBy: role, // Filter based on the admin's role
+      approvedBy: role,
     });
+
+    // Fetch total counts for approved, rejected, and pending leaves
+    const approvedCount = await LetterModel.countDocuments({
+      status: "Approved",
+      approvedBy: role,
+    });
+    const rejectedCount = await LetterModel.countDocuments({
+      status: "Rejected",
+      approvedBy: role,
+    });
+    const pendingCount = pendingRequests.length;
+
     if (pendingRequests.length === 0) {
-      return res.status(404).json({ message: "No leaves found" });
+      return res.status(404).json({ message: "No pending leave requests found" });
     }
 
+    // Count different leave types
     const leaveTypeCounts = {
       Permission: 0,
       "Sick Leave": 0,
@@ -68,12 +82,19 @@ const getPendingLeaveRequests = async (req, res) => {
       }
     });
 
-    res.status(200).json({ pendingRequests, leaveTypeCounts });
+    res.status(200).json({
+      pendingRequests, 
+      leaveTypeCounts,
+      approved: approvedCount,
+      rejected: rejectedCount,
+      pending: pendingCount,
+    });
   } catch (error) {
     console.error("Error fetching pending leave requests:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 
 
