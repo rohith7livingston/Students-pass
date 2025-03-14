@@ -185,9 +185,9 @@ const StudentRequestActivity = () => {
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           letterData={{
-            studentName: selectedLetter.studentName,
+            mailId: selectedLetter.mailId,
             rollNumber: selectedLetter.studentId,
-            department: selectedLetter.department,
+            // department: selectedLetter.department,
             reason: selectedLetter.reason,
             fromDate: selectedLetter.startDate,
             toDate: selectedLetter.endDate,

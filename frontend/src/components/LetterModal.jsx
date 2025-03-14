@@ -36,7 +36,15 @@ const LetterModal = ({ isOpen, onClose, letterData, onApprove, onReject }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300">
-      <div className="bg-white w-full max-w-lg rounded-2xl shadow-lg p-6 relative animate-fade-in">
+      <div className="bg-white w-full max-w-3xl rounded-2xl shadow-lg p-8 relative animate-fade-in">
+        {/* Mac-style window buttons */}
+        <div className="absolute top-4 left-4 flex space-x-2">
+          <span className="w-3 h-3 bg-red-500 rounded-full"></span>
+          <span className="w-3 h-3 bg-yellow-500 rounded-full"></span>
+          <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+          
+        </div>
+
         <button
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl"
           onClick={onClose}
@@ -68,15 +76,11 @@ const LetterModal = ({ isOpen, onClose, letterData, onApprove, onReject }) => {
             <div className="space-y-4 text-gray-700">
               <div className="flex justify-between">
                 <span className="font-semibold">Student Name:</span>
-                <span>{letterData.studentName}</span>
+                <span>{letterData.mailId}</span>
               </div>
               <div className="flex justify-between">
                 <span className="font-semibold">Roll Number:</span>
                 <span>{letterData.rollNumber}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">Department:</span>
-                <span>{letterData.department}</span>
               </div>
               <div>
                 <span className="font-semibold">Reason:</span>
@@ -110,7 +114,7 @@ const LetterModal = ({ isOpen, onClose, letterData, onApprove, onReject }) => {
               </div>
             </div>
 
-            <div className="flex justify-end gap-4 mt-8">
+            <div className="flex justify-center gap-4 mt-8">
               <button
                 className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition"
                 onClick={handleApprove}
