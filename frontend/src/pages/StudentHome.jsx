@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast ,ToastContainer } from "react-toastify"; // Import toast
 import Navbar from "../components/Navbar";
 import RecentActivity from "../components/RecentActivity";
-
+import Footer from "../components/Footer";
 const StudentHome = () => {
   const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ const StudentHome = () => {
       <Navbar />
     
       {/* Responsive Background Huge Text */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-0 pointer-events-none">
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center z-0 pointer-events-none">
         <h1 className="text-6xl md:text-[10rem] lg:text-[12rem] font-extrabold text-gray-300 opacity-10 md:opacity-20">
           RIGHT AWAY
         </h1>
@@ -50,14 +50,14 @@ const StudentHome = () => {
       </div>
 
       {/* Recent Activity Section */}
-      <div className="relative z-10 mt-12 flex justify-center px-4">
+      <div className="relative z-10 mt-10 flex justify-center px-4 mb-20">
         <div className="recent-activity w-full max-w-3xl">
           <RecentActivity />
         </div>
       </div>
       <ToastContainer position="top-right" autoClose={3000} />
       {/* 🔥 Footer Section */}
-      
+      <Footer  />
     </div>
   );
 };

@@ -2,11 +2,11 @@ import { useState, useRef, useEffect } from "react";
 import { FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom"; // React Router
 import axios from "axios";
-import { X } from "lucide-react"; 
+import { X } from "lucide-react";
 
 function Navbar() {
   const [isView, setIsView] = useState(false);
-  const [activities, setActivities] = useState([]);
+  const [activities, setActivities] = useState({});
   const [regno, setRegno] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
@@ -14,7 +14,6 @@ function Navbar() {
   const navigate = useNavigate(); // React Router navigation
 
   useEffect(() => {
-    // Fetch user registration number from local storage
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser?.regno) {
       setRegno(storedUser.regno);
@@ -23,14 +22,9 @@ function Navbar() {
 
   useEffect(() => {
     const fetchRecentActivity = async () => {
-      if (!regno)
-      { return;
-      }
-      else 
-      {
-        
+      if (!regno) return;
+
       try {
-        alert(`the register number i got is ${regno}`)
         const response = await axios.get(
           `http://localhost:3000/getstudentinfo/${regno}`
         );
@@ -39,8 +33,6 @@ function Navbar() {
       } catch (error) {
         console.error("Error fetching recent activity:", error);
       }
-      } // Prevent API call if regno is empty
-
     };
 
     fetchRecentActivity();
@@ -53,7 +45,7 @@ function Navbar() {
   const handleLogout = () => {
     setLoggingOut(true);
     setTimeout(() => {
-      navigate("/"); // Redirect to /login after animation
+      navigate("/login"); // Redirect to /login after animation
     }, 2000);
   };
 
@@ -76,51 +68,66 @@ function Navbar() {
 
       {/* Desktop Navigation */}
       <nav className="hidden md:flex gap-6 items-center">
-        
-        <Link  onClick={() => setIsView(true)}>Profile</Link>
+        <Link to="/" className="relative group">
+          Home
+          <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+        </Link>
 
-        
+        <button
+          onClick={() => setIsView(true)}
+          className="relative group focus:outline-none"
+        >
+          Profile
+          <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+        </button>
 
-        
-              
-           
+        {/* Notices Button */}
+        <a
+          href="https://construction-eight-wheat.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative group"
+        >
+          Notices
+          <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+        </a>
 
-
-
-        {/* Logout Button (Desktop) - Transparent */}
         <button
           onClick={handleLogout}
-          className="flex items-center gap-2 text-white hover:text-gray-300 transition duration-300"
+          className="relative group flex items-center gap-2 text-white hover:text-gray-300 transition duration-300"
         >
           <FaSignOutAlt className="text-xl" />
           Logout
+          <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
         </button>
       </nav>
+
+      {/* Profile Popup */}
       {isView && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                  <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md relative">
-                    {/* Close Button (X) on top right */}
-                    <button
-                      className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 transition duration-200"
-                      onClick={() => setIsView(false)}
-                    >
-                      <X size={24} />
-                    </button>
-        
-                    <h2 className="text-2xl font-bold mb-4 text-center text-white-800">
-                      Profile Details
-                    </h2>
-                    <div className="border-t border-gray-300 my-4"></div>
-        
-                    <div className="space-y-3">
-                      <ProfileDetail label="Name" value={activities.fullname} />
-                      <ProfileDetail label="Reg No" value={activities.regno} />
-                      <ProfileDetail label="Email" value={activities.email} />
-                      <ProfileDetail label="Department" value={activities.department} />
-                    </div>
-                  </div>
-                </div>
-              )}
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md relative">
+            {/* Close Button */}
+            <button
+              className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 transition duration-200"
+              onClick={() => setIsView(false)}
+            >
+              <X size={24} />
+            </button>
+
+            <h2 className="text-2xl font-bold mb-4 text-center text-gray-800">
+              Profile Details
+            </h2>
+            <div className="border-t border-gray-300 my-4"></div>
+
+            <div className="space-y-3">
+              <ProfileDetail label="Name" value={activities.fullname} />
+              <ProfileDetail label="Reg No" value={activities.regno} />
+              <ProfileDetail label="Email" value={activities.email} />
+              <ProfileDetail label="Department" value={activities.department} />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Mobile Navigation Button */}
       <button className="md:hidden text-2xl" onClick={toggleNavbar}>
@@ -134,22 +141,42 @@ function Navbar() {
           isOpen ? "translate-x-0" : "-translate-x-full"
         } z-40`}
       >
-        {/* 🔥 Close Button (INSIDE Menu) */}
+        {/* Close Button */}
         <button className="absolute top-6 right-6 text-2xl" onClick={toggleNavbar}>
           <FaTimes />
         </button>
 
-        {/* Mobile Menu Links */}
-        <Link to="/">Home</Link>
-        <Link  onClick={() => setIsView(true)}>Profile</Link>
+        <Link to="/" className="relative group">
+          Home
+          <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+        </Link>
 
-        {/* Logout Button (Mobile) - Transparent */}
+        <button
+          onClick={() => setIsView(true)}
+          className="relative group focus:outline-none"
+        >
+          Profile
+          <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+        </button>
+
+        {/* Notices Button */}
+        <a
+          href="https://construction-eight-wheat.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative group"
+        >
+          Notices
+          <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+        </a>
+
         <button
           onClick={handleLogout}
-          className="mt-6 flex items-center gap-2 text-white hover:text-gray-300 transition duration-300"
+          className="mt-6 flex items-center gap-2 text-white hover:text-gray-300 transition duration-300 relative group"
         >
           <FaSignOutAlt className="text-xl" />
           Logout
+          <span className="absolute left-0 bottom-0 w-full h-0.5 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
         </button>
       </nav>
 
@@ -163,7 +190,6 @@ function Navbar() {
   );
 }
 
-
 const ProfileDetail = ({ label, value }) => {
   return (
     <div className="flex justify-between items-center bg-gray-100 p-3 rounded-lg">
@@ -172,6 +198,5 @@ const ProfileDetail = ({ label, value }) => {
     </div>
   );
 };
-
 
 export default Navbar;

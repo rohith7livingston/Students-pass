@@ -51,7 +51,7 @@ const StudentRequestActivity = () => {
       }
     } catch (error) {
       console.error("Error fetching student requests:", error);
-      toast.error("Failed to fetch student requests ❌", { autoClose: 3000 });
+      toast.error("No Student Leaves Found❌", { autoClose: 3000 });
     } finally {
       setLoading(false);
     }

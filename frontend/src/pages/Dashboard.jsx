@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const words = ["Connect", "Grow", "Build"];
 
-const Dashboard2 = () => {
+const Dashboard = () => {
   const [index, setIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
@@ -151,4 +151,4 @@ const Dashboard2 = () => {
   );
 };
 
-export default Dashboard2;
+export default Dashboard;

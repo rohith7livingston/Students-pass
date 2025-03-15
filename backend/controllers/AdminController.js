@@ -90,7 +90,7 @@ const getPendingLeaveRequests = async (req, res) => {
       pending: pendingCount,
     });
   } catch (error) {
-    console.error("Error fetching pending leave requests:", error);
+    console.error("NO Leaves Found:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
