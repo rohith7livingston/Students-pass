@@ -1,7 +1,7 @@
 const {app} =require("./app.js");
 const mongoose = require("mongoose")
 
-mongoose.connect("mongodb://localhost:27017/Helloworld")
+mongoose.connect("mongodb+srv://Devisri123:devi+123@cluster0.vduzx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
         .then((req,res)=>
         {
             console.log("MangoDB connected");
